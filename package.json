@@ -1,0 +1,8 @@
+{
+  "name": "twse",
+  "version": "1.0.0",
+  "description": "TWSE stock fetcher",
+  "main": "index.js",
+  "author": "Jason C. Huang",
+  "license": "MIT"
+}
