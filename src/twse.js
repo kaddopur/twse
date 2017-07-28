@@ -1,5 +1,5 @@
 import Stock from './stock';
 
-export default {
+module.exports = {
   Stock
 };
