@@ -1,22 +1,27 @@
 // @flow
 import axios from 'axios';
+import url from 'url';
 
 export default class Stock {
-  stockId: string;
+  stockNo: string;
   data: {};
 
-  constructor(stockId: string) {
-    this.stockId = stockId;
+  constructor(stockNo: string) {
+    this.stockNo = stockNo;
   }
 
-  fetchData() {
-    return new Promise((resolve, reject) => {
-      axios(
-        'http://mis.twse.com.tw/stock/api/getStock.jsp?ch=1101.tw&json=1&_=1501258882292'
-      ).then(result => {
-        this.data = result.data;
-        resolve(result.data);
-      });
-    });
+  fetchData(date: string): Promise<any> {
+    console.log('2');
+    const urlObject = url.parse(
+      'http://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json',
+      true
+    );
+
+    urlObject.query = urlObject.query || {};
+    urlObject.query.stockNo = this.stockNo;
+
+    delete urlObject.search;
+
+    return axios(url.format(urlObject));
   }
 }
