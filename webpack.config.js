@@ -17,5 +17,12 @@ module.exports = {
         exclude: /node_modules/
       }
     ]
+  },
+  node: {
+    dns: 'empty',
+    net: 'empty'
+  },
+  resolve: {
+    mainFields: ['browser', 'module', 'main']
   }
 };
