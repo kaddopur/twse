@@ -2,26 +2,13 @@
 import axios from 'axios';
 import url from 'url';
 
-export default class Stock {
-  stockNo: string;
-  data: {};
+export function getMultiplePriceInfo(stockNoList: Array<string> = []) {
+  return [];
+}
 
-  constructor(stockNo: string) {
-    this.stockNo = stockNo;
+export function getPriceInfo(stockNo: string) {
+  if (typeof stockNo !== 'string') {
+    throw new Error('getPriceInfo: stockNo should be a string');
   }
-
-  fetchData(date: string): Promise<any> {
-    console.log('2');
-    const urlObject = url.parse(
-      'http://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json',
-      true
-    );
-
-    urlObject.query = urlObject.query || {};
-    urlObject.query.stockNo = this.stockNo;
-
-    delete urlObject.search;
-
-    return axios(url.format(urlObject));
-  }
+  return getMultiplePriceInfo([stockNo]);
 }
