@@ -2,7 +2,7 @@
   "name": "twse",
   "version": "0.2.0",
   "description": "TWSE fetcher",
-  "main": "index.js",
+  "main": "src/index.js",
   "repository": "https://github.com/kaddopur/twse",
   "author": "Jason Huang <chaoju.huang@gmail.com>",
   "license": "MIT"
