@@ -10,8 +10,7 @@
     "@babel/cli": "^7.0.0-beta.39",
     "@babel/core": "^7.0.0-beta.39",
     "@babel/preset-env": "^7.0.0-beta.39",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
-    "babel-plugin-transform-es2015-modules-umd": "^6.24.1"
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0"
   },
   "dependencies": {
     "twse": "^1.0.0"
