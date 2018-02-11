@@ -1558,6 +1558,10 @@ trim-off-newlines@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-off-newlines/-/trim-off-newlines-1.0.1.tgz#9f9ba9d9efa8764c387698bcbfeb2c848f11adb3"
 
+twse@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/twse/-/twse-0.2.1.tgz#a65baaa20045f17dc9070f2bad8f690204cf799a"
+
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"

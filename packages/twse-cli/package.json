@@ -1,9 +1,9 @@
 {
-  "name": "twse",
+  "name": "twse-cli",
   "version": "1.0.0",
   "main": "src/index.js",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.17.1"
+    "twse": "^0.2.1"
   }
 }
