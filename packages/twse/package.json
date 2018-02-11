@@ -1,9 +1,17 @@
 {
   "name": "twse",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "license": "MIT",
+  "scripts": {
+    "build": "babel src -d dist"
+  },
   "dependencies": {
     "axios": "^0.17.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.39",
+    "@babel/core": "^7.0.0-beta.39",
+    "@babel/preset-env": "^7.0.0-beta.39"
   }
 }

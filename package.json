@@ -1,8 +1,13 @@
 {
     "private": true,
+    "scripts": {
+        "build": "lerna run build"
+    },
     "devDependencies": {
         "lerna": "^2.8.0"
     },
     "license": "MIT",
-    "workspaces": ["packages/*"]
+    "workspaces": [
+        "packages/*"
+    ]
 }
