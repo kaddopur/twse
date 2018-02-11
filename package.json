@@ -1,5 +1,9 @@
 {
-	"devDependencies": {
-		"lerna": "^2.8.0"
-	}
+    "name": "twse-monorepo",
+    "private": true,
+    "devDependencies": {
+        "lerna": "^2.8.0"
+    },
+    "license": "MIT",
+    "workspaces": ["packages/*"]
 }
