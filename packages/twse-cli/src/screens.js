@@ -2,7 +2,7 @@ import clear from 'clear';
 import chalk from 'chalk';
 import figlet from 'figlet';
 import Table from 'cli-table2';
-import { getStockInfo } from 'twse';
+import { getStockInfoStream } from 'twse';
 import numeral from 'numeral';
 
 export const renderWelcomeScreen = () => {
@@ -18,6 +18,7 @@ export const renderWelcomeScreen = () => {
 };
 
 const renderTickerTable = (stockInfo = []) => {
+    clear();
     const table = new Table({
         head: [
             '代號',
@@ -98,7 +99,14 @@ const renderTickerTable = (stockInfo = []) => {
 };
 
 export const renderTickerScreen = async () => {
-    clear();
-    const stockInfo = await getStockInfo(['2888']);
-    renderTickerTable(stockInfo);
+    getStockInfoStream([
+        '2401',
+        '0061',
+        '3231',
+        '2317',
+        '2888',
+        '2882'
+    ]).subscribe(stockInfo => {
+        renderTickerTable(stockInfo);
+    });
 };
