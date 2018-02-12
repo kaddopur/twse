@@ -7,6 +7,7 @@ import numeral from 'numeral';
 
 export const renderWelcomeScreen = () => {
     clear();
+
     console.log(
         chalk.red(
             figlet.textSync('twse', {
@@ -17,8 +18,26 @@ export const renderWelcomeScreen = () => {
     );
 };
 
+const coloring = (string, condition, bgColor) => {
+    const upColor = chalk.red.bind(chalk);
+    const downColor = chalk.green.bind(chalk);
+    const upBgColor = chalk.bgRed.bind(chalk);
+    const downBgColor = chalk.bgGreenBright.bind(chalk);
+
+    if (bgColor) {
+        return condition > 0 ? upBgColor(string) : downBgColor(string);
+    } else if (condition > 0) {
+        return upColor(string);
+    } else if (condition < 0) {
+        return downColor(string);
+    } else {
+        return string;
+    }
+};
+
 const renderTickerTable = (stockInfo = []) => {
     clear();
+
     const table = new Table({
         head: [
             '代號',
@@ -60,24 +79,58 @@ const renderTickerTable = (stockInfo = []) => {
         table.push([
             stock.c,
             stock.n,
-            { content: numeral(stock.z).format('0.00'), hAlign: 'right' },
             {
-                content: numeral(stock.z - stock.y).format('0.00'),
-                hAlign: 'right'
-            },
-            {
-                content: numeral((stock.z - stock.y) / stock.y).format(
-                    '+0.00%'
+                content: coloring(
+                    numeral(stock.z).format('0.00'),
+                    stock.z - stock.y,
+                    stock.z === stock.u || stock.z === stock.w
                 ),
                 hAlign: 'right'
             },
             {
-                content: numeral(stock.tv).format('0,0'),
+                content: coloring(
+                    numeral(stock.z - stock.y).format('0.00'),
+                    stock.z - stock.y
+                ),
+                hAlign: 'right'
+            },
+            {
+                content: coloring(
+                    numeral((stock.z - stock.y) / stock.y).format('+0.00%'),
+                    stock.z - stock.y
+                ),
+                hAlign: 'right'
+            },
+            {
+                content: coloring(
+                    numeral(stock.tv).format('0,0'),
+                    stock.a === '-'
+                        ? 1
+                        : stock.b === '-'
+                          ? -1
+                          : 2 * stock.z -
+                            stock.a.split('_')[0] -
+                            stock.b.split('_')[0]
+                ),
                 hAlign: 'right'
             },
             { content: numeral(stock.v).format('0,0'), hAlign: 'right' },
-            { content: numeral(stock.h).format('0.00'), hAlign: 'right' },
-            { content: numeral(stock.l).format('0.00'), hAlign: 'right' },
+            {
+                content: coloring(
+                    numeral(stock.h).format('0.00'),
+                    stock.h - stock.y,
+                    stock.h === stock.u
+                ),
+                hAlign: 'right'
+            },
+            {
+                content: coloring(
+                    numeral(stock.l).format('0.00'),
+                    stock.l - stock.y,
+                    stock.l === stock.w
+                ),
+                hAlign: 'right'
+            },
             {
                 content: numeral((stock.h - stock.l) / stock.y).format(
                     '+0.00%'
@@ -99,14 +152,9 @@ const renderTickerTable = (stockInfo = []) => {
 };
 
 export const renderTickerScreen = async () => {
-    getStockInfoStream([
-        '2401',
-        '0061',
-        '3231',
-        '2317',
-        '2888',
-        '2882'
-    ]).subscribe(stockInfo => {
-        renderTickerTable(stockInfo);
-    });
+    getStockInfoStream(['2401', '2888', '0061', '0050']).subscribe(
+        stockInfo => {
+            renderTickerTable(stockInfo);
+        }
+    );
 };
