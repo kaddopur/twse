@@ -4,6 +4,7 @@ import figlet from 'figlet';
 import Table from 'cli-table2';
 import { getStockInfoStream } from 'twse';
 import numeral from 'numeral';
+import { getSymbols } from './store';
 
 export const renderWelcomeScreen = () => {
     clear();
@@ -152,9 +153,7 @@ const renderTickerTable = (stockInfo = []) => {
 };
 
 export const renderTickerScreen = async () => {
-    getStockInfoStream(['2401', '2888', '0061', '0050']).subscribe(
-        stockInfo => {
-            renderTickerTable(stockInfo);
-        }
-    );
+    getStockInfoStream(getSymbols()).subscribe(stockInfo => {
+        renderTickerTable(stockInfo);
+    });
 };

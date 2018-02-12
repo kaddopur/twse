@@ -20,6 +20,7 @@
     "chalk": "^2.3.1",
     "clear": "^0.0.1",
     "cli-table2": "^0.2.0",
+    "configstore": "^3.1.1",
     "figlet": "^1.2.0",
     "inquirer": "^5.1.0",
     "numeral": "^2.0.6",
