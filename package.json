@@ -1,6 +1,7 @@
 {
     "private": true,
     "scripts": {
+        "release": "lerna publish",
         "bootstrap": "lerna bootstrap",
         "build": "lerna run build",
         "clean": "rimraf packages/**/dist"
