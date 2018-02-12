@@ -7,7 +7,7 @@ export const askMenu = () => {
             type: 'list',
             name: 'menu',
             message: 'What do you want to do?',
-            choices: ['Ticker', 'My symbols']
+            choices: ['Show ticker', 'Show symbols']
         }
     ];
     return inquirer.prompt(questions);
@@ -21,7 +21,8 @@ export const askSymbolList = () => {
             message: 'Add/remove your symbol',
             choices: [
                 ...getSymbols().map(s => `${s.code} ${s.name}`),
-                'Add new'
+                'Add new',
+                'Back to menu'
             ]
         }
     ];

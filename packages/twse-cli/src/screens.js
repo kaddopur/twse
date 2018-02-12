@@ -5,9 +5,14 @@ import Table from 'cli-table2';
 import { getStockInfo, getStockInfoStream } from 'twse';
 import numeral from 'numeral';
 import { getSymbols, setSymbols } from './store';
-import { askSymbolList, askAddSymbol, confirmRemoveSymbol } from './questions';
+import {
+    askMenu,
+    askSymbolList,
+    askAddSymbol,
+    confirmRemoveSymbol
+} from './questions';
 
-export const renderWelcomeScreen = () => {
+export const renderWelcomeScreen = async () => {
     clear();
 
     console.log(
@@ -18,6 +23,19 @@ export const renderWelcomeScreen = () => {
             })
         )
     );
+
+    const { menu } = await askMenu();
+
+    switch (menu) {
+        case 'Show ticker':
+            renderTickerScreen();
+            break;
+        case 'Show symbols':
+            renderMySymbolsScreen();
+            break;
+        default:
+            break;
+    }
 };
 
 const coloring = (string, condition, bgColor) => {
@@ -198,6 +216,9 @@ export const renderMySymbolsScreen = async () => {
     switch (symbol) {
         case 'Add new':
             renderAddSymbolScreen();
+            break;
+        case 'Back to menu':
+            renderWelcomeScreen();
             break;
         default:
             renderRemoveSymbolScreen(symbol);
