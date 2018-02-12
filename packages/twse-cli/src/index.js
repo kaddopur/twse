@@ -1,5 +1,9 @@
 import '@babel/polyfill';
-import { renderWelcomeScreen, renderTickerScreen } from './screens';
+import {
+    renderWelcomeScreen,
+    renderTickerScreen,
+    renderMySymbolsScreen
+} from './screens';
 import { askMenu } from './questions';
 
 const run = async () => {
@@ -8,10 +12,14 @@ const run = async () => {
     const { menu } = await askMenu();
 
     switch (menu) {
-        case 'Show ticker':
+        case 'Ticker':
             renderTickerScreen();
+            break;
+        case 'My symbols':
+            renderMySymbolsScreen();
+            break;
         default:
-            return;
+            break;
     }
 };
 
