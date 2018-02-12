@@ -17,9 +17,7 @@ export const renderWelcomeScreen = () => {
     );
 };
 
-export const renderTickerScreen = async () => {
-    clear();
-    const stockInfo = await getStockInfo(['2888']);
+const renderTickerTable = (stockInfo = []) => {
     const table = new Table({
         head: [
             '代號',
@@ -97,4 +95,10 @@ export const renderTickerScreen = async () => {
     ]);
 
     console.log(table.toString());
+};
+
+export const renderTickerScreen = async () => {
+    clear();
+    const stockInfo = await getStockInfo(['2888']);
+    renderTickerTable(stockInfo);
 };
