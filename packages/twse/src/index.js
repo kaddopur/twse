@@ -1,5 +1,6 @@
 import '@babel/polyfill';
 import axios from 'axios';
+import Rx from 'rxjs';
 
 // no encoding for params
 axios.defaults.paramsSerializer = params =>
@@ -36,4 +37,15 @@ export const getStockInfo = async (symbols = []) => {
     } catch (e) {
         return null;
     }
+};
+
+const DEFAULT_API_INTERVAL_MS = 5000;
+
+export const getStockInfoStream = (
+    symbols = [],
+    interval = DEFAULT_API_INTERVAL_MS
+) => {
+    return Rx.Observable.interval(interval)
+        .startWith(0)
+        .flatMap(() => getStockInfo(symbols));
 };

@@ -6,6 +6,9 @@
   "scripts": {
     "build": "babel src -d dist"
   },
+  "bin": {
+    "twse": "./dist/index.js"
+  },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.39",
     "@babel/core": "^7.0.0-beta.39",
@@ -13,6 +16,14 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.0.0-beta.39",
+    "chalk": "^2.3.1",
+    "clear": "^0.0.1",
+    "cli-table2": "^0.2.0",
+    "configstore": "^3.1.1",
+    "figlet": "^1.2.0",
+    "inquirer": "^5.1.0",
+    "numeral": "^2.0.6",
     "twse": "^1.0.0"
   }
 }

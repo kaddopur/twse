@@ -1,4 +1,8 @@
-import twse from 'twse';
+import '@babel/polyfill';
+import { renderWelcomeScreen } from './screens';
 
-console.log('from twse-cli');
-console.log(twse());
+const run = async () => {
+    renderWelcomeScreen();
+};
+
+run();
