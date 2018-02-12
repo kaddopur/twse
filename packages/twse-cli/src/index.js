@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import '@babel/polyfill';
 import { renderWelcomeScreen } from './screens';
 
