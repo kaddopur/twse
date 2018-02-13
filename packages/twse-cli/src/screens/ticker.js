@@ -2,7 +2,6 @@ import clear from 'clear';
 import chalk from 'chalk';
 import Table from 'cli-table2';
 import { getStockInfoStream } from 'twse';
-import { getSymbols } from '../store';
 import numeral from 'numeral';
 
 const coloring = (string, condition, bgColor) => {
@@ -138,14 +137,12 @@ const renderTickerTable = (stockInfo = []) => {
     console.log(table.toString());
 };
 
-export default async ({ actions: { updateScreen } = {} }) => {
-    const symbols = getSymbols();
-
+export default async ({ actions: { updateScreen } = {}, symbols = [] }) => {
     if (symbols.length === 0) {
         return updateScreen('main');
     }
 
-    getStockInfoStream(getSymbols().map(s => s.code)).subscribe(stockInfo => {
+    getStockInfoStream(symbols.map(s => s.code)).subscribe(stockInfo => {
         renderTickerTable(stockInfo);
     });
 };

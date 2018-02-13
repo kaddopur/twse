@@ -8,8 +8,6 @@ export default async ({ actions: { updateScreen } = {}, symbol }) => {
 
     const { remove } = await confirmRemoveSymbol(symbol);
 
-    console.log('asdf', remove);
-
     if (remove) {
         const newSymbols = getSymbols().filter(
             s => `${s.code} ${s.name}` !== symbol

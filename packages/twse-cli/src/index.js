@@ -8,34 +8,47 @@ import symbolListScreen from './screens/symbolList';
 import symbolAddScreen from './screens/symbolAdd';
 import symbolRemoveScreen from './screens/symbolRemove';
 
-import { createStore } from 'redux';
-import rootReducer, { getScreen, updateScreen } from './ducks/screen';
+import { createStore, combineReducers } from 'redux';
+import screenReducer, { getScreen, updateScreen } from './ducks/screen';
+import symbolsRecuder, { getSymbols, addSymbols } from './ducks/symbols';
 import { bindActionCreators } from 'redux';
 
+const rootReducer = combineReducers({
+    screen: screenReducer,
+    symbols: symbolsRecuder
+});
+
 const store = createStore(rootReducer);
-const actions = bindActionCreators({ updateScreen }, store.dispatch);
+const actions = bindActionCreators(
+    { updateScreen, addSymbols },
+    store.dispatch
+);
+
+let prevScreen = null;
 
 function render() {
-    const screen = getScreen(store.getState());
+    const { screen: screenState, symbols: symbolsState } = store.getState();
+    const screen = getScreen(screenState);
+    const symbols = getSymbols(symbolsState);
+
+    if (screen === prevScreen) {
+        return;
+    }
+    prevScreen = screen;
 
     switch (screen) {
         case 'main':
-            mainScreen({ actions });
-            break;
+            return mainScreen({ actions });
         case 'ticker':
-            tickerScreen({ actions });
-            break;
+            return tickerScreen({ actions, symbols });
         case 'symbolList':
-            symbolListScreen({ actions });
-            break;
+            return symbolListScreen({ actions, symbols });
         case 'symbolAdd':
-            symbolAddScreen({ actions });
-            break;
+            return symbolAddScreen({ actions });
         case 'symbolRemove':
-            symbolRemoveScreen({ actions });
-            break;
+            return symbolRemoveScreen({ actions });
         default:
-            break;
+            return;
     }
 }
 
