@@ -1,42 +1,9 @@
 import clear from 'clear';
 import chalk from 'chalk';
-import figlet from 'figlet';
 import Table from 'cli-table2';
-import { getStockInfo, getStockInfoStream } from 'twse';
+import { getStockInfoStream } from 'twse';
+import { getSymbols } from '../store';
 import numeral from 'numeral';
-import { getSymbols, setSymbols } from './store';
-import {
-    askMenu,
-    askSymbolList,
-    askAddSymbol,
-    confirmRemoveSymbol
-} from './questions';
-
-export const renderWelcomeScreen = async () => {
-    clear();
-
-    console.log(
-        chalk.red(
-            figlet.textSync('twse', {
-                horizontalLayout: 'full',
-                font: 'Ogre'
-            })
-        )
-    );
-
-    const { menu } = await askMenu();
-
-    switch (menu) {
-        case 'Show ticker':
-            renderTickerScreen();
-            break;
-        case 'Edit symbols':
-            renderMySymbolsScreen();
-            break;
-        default:
-            break;
-    }
-};
 
 const coloring = (string, condition, bgColor) => {
     const upColor = chalk.red.bind(chalk);
@@ -171,63 +138,14 @@ const renderTickerTable = (stockInfo = []) => {
     console.log(table.toString());
 };
 
-export const renderTickerScreen = async () => {
+export default async ({ actions: { updateScreen } = {} }) => {
     const symbols = getSymbols();
 
     if (symbols.length === 0) {
-        renderWelcomeScreen();
-        return;
+        return updateScreen('main');
     }
 
     getStockInfoStream(getSymbols().map(s => s.code)).subscribe(stockInfo => {
         renderTickerTable(stockInfo);
     });
-};
-
-const renderAddSymbolScreen = async () => {
-    clear();
-    const { symbol } = await askAddSymbol();
-
-    const [stock] = await getStockInfo([symbol]);
-
-    if (stock) {
-        let newSymbols = getSymbols();
-        newSymbols.push({
-            code: stock.c,
-            name: stock.n
-        });
-        setSymbols(newSymbols);
-    }
-
-    renderMySymbolsScreen();
-};
-
-const renderRemoveSymbolScreen = async symbol => {
-    clear();
-    const { remove } = await confirmRemoveSymbol(symbol);
-
-    if (remove) {
-        const newSymbols = getSymbols().filter(
-            s => `${s.code} ${s.name}` !== symbol
-        );
-        setSymbols(newSymbols);
-    }
-
-    renderMySymbolsScreen();
-};
-
-export const renderMySymbolsScreen = async () => {
-    clear();
-    const { symbol } = await askSymbolList();
-
-    switch (symbol) {
-        case 'Add new':
-            renderAddSymbolScreen();
-            break;
-        case 'Back to menu':
-            renderWelcomeScreen();
-            break;
-        default:
-            renderRemoveSymbolScreen(symbol);
-    }
 };
