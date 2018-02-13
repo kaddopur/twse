@@ -1,12 +1,12 @@
 import clear from 'clear';
 import { getStockInfo } from 'twse';
 import { getSymbols, setSymbols } from '../store';
-import { askAddSymbol } from '../questions';
+import askNewSymbol from '../questions/askNewSymbol';
 
 export default async ({ actions: { updateScreen } = {} }) => {
     clear();
 
-    const { symbol } = await askAddSymbol();
+    const { symbol } = await askNewSymbol();
     const [stock] = await getStockInfo([symbol]);
 
     if (stock) {
