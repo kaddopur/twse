@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import '@babel/polyfill';
-import { renderTickerScreen, renderMySymbolsScreen } from './screens';
 import menuScreen from './screens/menu';
 import tickerScreen from './screens/ticker';
 import symbolListScreen from './screens/symbolList';
