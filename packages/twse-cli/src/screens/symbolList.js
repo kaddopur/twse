@@ -1,9 +1,7 @@
-import clear from 'clear';
 import chooseSymbol from '../questions/chooseSymbol';
 import { SYMBOLLIST_ADD, SYMBOLLIST_BACK } from '../locales/en';
 
 export default async ({ actions: { updateScreen } = {}, symbols = [] }) => {
-    clear();
     const { symbol } = await chooseSymbol(symbols);
 
     switch (symbol) {

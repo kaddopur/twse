@@ -1,4 +1,3 @@
-import clear from 'clear';
 import chalk from 'chalk';
 import figlet from 'figlet';
 import chooseMenu from '../questions/chooseMenu';
@@ -16,7 +15,6 @@ const renderWelcomeMessage = () => {
 };
 
 export default async ({ actions: { updateScreen } = {} }) => {
-    clear();
     renderWelcomeMessage();
 
     const { menu } = await chooseMenu();

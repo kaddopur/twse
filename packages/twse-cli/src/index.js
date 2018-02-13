@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import '@babel/polyfill';
+import clear from 'clear';
 import menuScreen from './screens/menu';
 import tickerScreen from './screens/ticker';
 import symbolListScreen from './screens/symbolList';
@@ -20,6 +21,8 @@ const actions = bindActionCreators(
 let prevScreen = null;
 
 function render() {
+    clear();
+
     const { screen: screenState, symbol: symbolState } = store.getState();
     const screen = getScreen(screenState);
     const symbols = getSymbols(symbolState);
