@@ -12,10 +12,20 @@ const initialState = {
 //- Reducers
 export default handleActions(
     {
-        SYMBOL_ADD: (state, action) => ({
-            ...state,
-            symbols: [...state.symbols, action.payload]
-        }),
+        SYMBOL_ADD: (state, action) => {
+            const duplicate = state.symbols.find(
+                symbol => symbol.code === action.payload.code
+            );
+
+            if (duplicate) {
+                return state;
+            }
+
+            return {
+                ...state,
+                symbols: [...state.symbols, action.payload]
+            };
+        },
         SYMBOL_REMOVE: (state, action) => ({
             ...state,
             symbols: state.symbols.filter(s => s.code !== action.payload)

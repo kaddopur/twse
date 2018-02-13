@@ -9,7 +9,7 @@ import symbolAddScreen from './screens/symbolAdd';
 import symbolRemoveScreen from './screens/symbolRemove';
 
 import { getScreen, updateScreen } from './ducks/screen';
-import { getSymbols, addSymbol, removeSymbol } from './ducks/symbols';
+import { getSymbols, addSymbol, removeSymbol } from './ducks/symbol';
 import { bindActionCreators } from 'redux';
 import store from './store';
 import conf from './conf';
