@@ -7,7 +7,7 @@ export const askMenu = () => {
             type: 'list',
             name: 'menu',
             message: 'What do you want to do?',
-            choices: ['Show ticker', 'Show symbols']
+            choices: ['Show ticker', 'Edit symbols', 'Exit']
         }
     ];
     return inquirer.prompt(questions);

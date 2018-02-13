@@ -30,7 +30,7 @@ export const renderWelcomeScreen = async () => {
         case 'Show ticker':
             renderTickerScreen();
             break;
-        case 'Show symbols':
+        case 'Edit symbols':
             renderMySymbolsScreen();
             break;
         default:
@@ -172,6 +172,13 @@ const renderTickerTable = (stockInfo = []) => {
 };
 
 export const renderTickerScreen = async () => {
+    const symbols = getSymbols();
+
+    if (symbols.length === 0) {
+        renderWelcomeScreen();
+        return;
+    }
+
     getStockInfoStream(getSymbols().map(s => s.code)).subscribe(stockInfo => {
         renderTickerTable(stockInfo);
     });
