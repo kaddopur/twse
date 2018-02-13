@@ -5,6 +5,7 @@ import { renderTickerScreen, renderMySymbolsScreen } from './screens';
 import mainScreen from './screens/main';
 import tickerScreen from './screens/ticker';
 import symbolListScreen from './screens/symbolList';
+import symbolAddScreen from './screens/symbolAdd';
 
 import { createStore } from 'redux';
 import rootReducer, { getScreen, updateScreen } from './ducks/screen';
@@ -25,6 +26,9 @@ function render() {
             break;
         case 'symbolList':
             symbolListScreen({ actions });
+            break;
+        case 'symbolAdd':
+            symbolAddScreen({ actions });
             break;
         default:
             break;

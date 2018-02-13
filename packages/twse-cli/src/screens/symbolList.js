@@ -7,12 +7,10 @@ export default async ({ actions: { updateScreen } = {} }) => {
 
     switch (symbol) {
         case 'Add new':
-            updateScreen('addSymbol');
-            break;
+            return updateScreen('symbolAdd');
         case 'Back to menu':
-            updateScreen('main');
-            break;
+            return updateScreen('main');
         default:
-            updateScreen('removeSymbol');
+            return updateScreen('symbolRemove');
     }
 };

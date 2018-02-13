@@ -142,8 +142,7 @@ export default async ({ actions: { updateScreen } = {} }) => {
     const symbols = getSymbols();
 
     if (symbols.length === 0) {
-        updateScreen('main');
-        return;
+        return updateScreen('main');
     }
 
     getStockInfoStream(getSymbols().map(s => s.code)).subscribe(stockInfo => {

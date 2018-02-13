@@ -19,12 +19,8 @@ export default async ({ actions: { updateScreen } = {} }) => {
 
     switch (menu) {
         case 'Show ticker':
-            updateScreen('ticker');
-            break;
+            return updateScreen('ticker');
         case 'Edit symbols':
-            updateScreen('symbolList');
-            break;
-        default:
-            break;
+            return updateScreen('symbolList');
     }
 };
