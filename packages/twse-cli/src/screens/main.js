@@ -1,11 +1,9 @@
 import clear from 'clear';
 import chalk from 'chalk';
 import figlet from 'figlet';
-import { askMenu } from '../questions';
+import chooseMenu from '../questions/chooseMenu';
 
-export default async ({ actions: { updateScreen } = {} }) => {
-    clear();
-
+const renderWelcomeMessage = () => {
     console.log(
         chalk.red(
             figlet.textSync('twse', {
@@ -14,13 +12,18 @@ export default async ({ actions: { updateScreen } = {} }) => {
             })
         )
     );
+};
 
-    const { menu } = await askMenu();
+export default async ({ actions: { updateScreen } = {} }) => {
+    clear();
+    renderWelcomeMessage();
+
+    const { menu } = await chooseMenu();
 
     switch (menu) {
-        case 'Show ticker':
+        case 'Ticker':
             return updateScreen('ticker');
-        case 'Edit symbols':
+        case 'Symbols':
             return updateScreen('symbolList');
     }
 };

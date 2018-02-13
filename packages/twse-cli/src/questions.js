@@ -1,18 +1,6 @@
 import inquirer from 'inquirer';
 import { getSymbols } from './store';
 
-export const askMenu = () => {
-    const questions = [
-        {
-            type: 'list',
-            name: 'menu',
-            message: 'What do you want to do?',
-            choices: ['Show ticker', 'Edit symbols', 'Exit']
-        }
-    ];
-    return inquirer.prompt(questions);
-};
-
 export const askSymbolList = () => {
     const questions = [
         {

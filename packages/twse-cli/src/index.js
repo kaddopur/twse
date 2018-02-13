@@ -6,7 +6,7 @@ import mainScreen from './screens/main';
 import tickerScreen from './screens/ticker';
 import symbolListScreen from './screens/symbolList';
 import symbolAddScreen from './screens/symbolAdd';
-import symbolRemoveScreen from './screens/symbolRemove';
+import symbolRemoveScreen from './screens';
 
 import { createStore } from 'redux';
 import rootReducer, { getScreen, updateScreen } from './ducks/screen';
