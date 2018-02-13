@@ -12,6 +12,7 @@ import { getScreen, updateScreen } from './ducks/screen';
 import { getSymbols, addSymbol, removeSymbol } from './ducks/symbols';
 import { bindActionCreators } from 'redux';
 import store from './store';
+import conf from './conf';
 
 const actions = bindActionCreators(
     { updateScreen, addSymbol, removeSymbol },
@@ -23,9 +24,11 @@ let prevScreen = null;
 function render() {
     clear();
 
-    const { screen: screenState, symbol: symbolState } = store.getState();
+    const state = store.getState();
+    const { screen: screenState, symbol: symbolState } = state;
     const screen = getScreen(screenState);
     const symbols = getSymbols(symbolState);
+    conf.set('appState', store.getState());
 
     if (screen === prevScreen) {
         return;
