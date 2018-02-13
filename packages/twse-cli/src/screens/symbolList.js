@@ -1,14 +1,15 @@
 import clear from 'clear';
 import chooseSymbol from '../questions/chooseSymbol';
+import { SYMBOLLIST_ADD, SYMBOLLIST_BACK } from '../locales/en';
 
 export default async ({ actions: { updateScreen } = {}, symbols = [] }) => {
     clear();
     const { symbol } = await chooseSymbol(symbols);
 
     switch (symbol) {
-        case 'Add new':
+        case SYMBOLLIST_ADD:
             return updateScreen({ name: 'symbolAdd' });
-        case 'Back to menu':
+        case SYMBOLLIST_BACK:
             return updateScreen({ name: 'menu' });
         default:
             return updateScreen({ name: 'symbolRemove', params: { symbol } });

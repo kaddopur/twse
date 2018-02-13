@@ -1,4 +1,5 @@
 import inquirer from 'inquirer';
+import { SYMBOLLIST_ADD, SYMBOLLIST_BACK } from '../locales/en';
 
 export default symbols => {
     const questions = [
@@ -7,9 +8,9 @@ export default symbols => {
             name: 'symbol',
             message: 'Add/remove your symbol',
             choices: [
-                'Add new',
+                SYMBOLLIST_ADD,
                 ...symbols.map(s => `${s.code} ${s.name}`),
-                'Back to menu'
+                SYMBOLLIST_BACK
             ]
         }
     ];
