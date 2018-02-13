@@ -1,11 +1,9 @@
 #!/usr/bin/env node
 
 import '@babel/polyfill';
-import {
-    renderWelcomeScreen,
-    renderTickerScreen,
-    renderMySymbolsScreen
-} from './screens';
+import { renderTickerScreen, renderMySymbolsScreen } from './screens';
+import mainScreen from './screens/main';
+import tickerScreen from './screens/ticker';
 
 import { createStore } from 'redux';
 import rootReducer, { getScreen, updateScreen } from './ducks/screen';
@@ -19,10 +17,10 @@ function render() {
 
     switch (screen) {
         case 'main':
-            renderWelcomeScreen({ actions });
+            mainScreen({ actions });
             break;
         case 'ticker':
-            renderTickerScreen({ actions });
+            tickerScreen({ actions });
             break;
         case 'symbols':
             renderMySymbolsScreen({ actions });
