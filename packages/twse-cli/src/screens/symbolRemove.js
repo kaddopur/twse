@@ -1,19 +1,19 @@
 import clear from 'clear';
 import { getStockInfo } from 'twse';
-import { getSymbols, setSymbols } from '../store';
 import confirmRemoveSymbol from '../questions/confirmRemoveSymbol';
 
-export default async ({ actions: { updateScreen } = {}, symbol }) => {
+export default async ({
+    actions: { updateScreen, removeSymbol } = {},
+    params: { symbol }
+}) => {
     clear();
 
     const { remove } = await confirmRemoveSymbol(symbol);
 
     if (remove) {
-        const newSymbols = getSymbols().filter(
-            s => `${s.code} ${s.name}` !== symbol
-        );
-        setSymbols(newSymbols);
+        const symbolCode = symbol.split(' ')[0];
+        removeSymbol(symbolCode);
     }
 
-    updateScreen('symbolList');
+    updateScreen({ name: 'symbolList' });
 };

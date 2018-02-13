@@ -139,7 +139,7 @@ const renderTickerTable = (stockInfo = []) => {
 
 export default async ({ actions: { updateScreen } = {}, symbols = [] }) => {
     if (symbols.length === 0) {
-        return updateScreen('menu');
+        return updateScreen({ name: 'menu' });
     }
 
     getStockInfoStream(symbols.map(s => s.code)).subscribe(stockInfo => {

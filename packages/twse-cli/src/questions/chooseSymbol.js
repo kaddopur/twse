@@ -7,8 +7,8 @@ export default symbols => {
             name: 'symbol',
             message: 'Add/remove your symbol',
             choices: [
-                ...symbols.map(s => `${s.code} ${s.name}`),
                 'Add new',
+                ...symbols.map(s => `${s.code} ${s.name}`),
                 'Back to menu'
             ]
         }

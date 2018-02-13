@@ -22,8 +22,8 @@ export default async ({ actions: { updateScreen } = {} }) => {
 
     switch (menu) {
         case 'Ticker':
-            return updateScreen('ticker');
+            return updateScreen({ name: 'ticker' });
         case 'Symbols':
-            return updateScreen('symbolList');
+            return updateScreen({ name: 'symbolList' });
     }
 };
