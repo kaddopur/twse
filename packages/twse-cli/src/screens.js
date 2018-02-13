@@ -12,7 +12,9 @@ import {
     confirmRemoveSymbol
 } from './questions';
 
-export const renderWelcomeScreen = async () => {
+export const renderWelcomeScreen = async ({
+    actions: { updateScreen } = {}
+}) => {
     clear();
 
     console.log(
@@ -28,10 +30,10 @@ export const renderWelcomeScreen = async () => {
 
     switch (menu) {
         case 'Show ticker':
-            renderTickerScreen();
+            updateScreen('ticker');
             break;
         case 'Edit symbols':
-            renderMySymbolsScreen();
+            updateScreen('symbols');
             break;
         default:
             break;
