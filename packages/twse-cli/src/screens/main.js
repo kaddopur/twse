@@ -1,7 +1,6 @@
 import clear from 'clear';
 import chalk from 'chalk';
 import figlet from 'figlet';
-
 import { askMenu } from '../questions';
 
 export default async ({ actions: { updateScreen } = {} }) => {
@@ -23,7 +22,7 @@ export default async ({ actions: { updateScreen } = {} }) => {
             updateScreen('ticker');
             break;
         case 'Edit symbols':
-            updateScreen('symbols');
+            updateScreen('symbolList');
             break;
         default:
             break;

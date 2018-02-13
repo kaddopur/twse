@@ -1,16 +1,7 @@
 import clear from 'clear';
-import chalk from 'chalk';
-import figlet from 'figlet';
-import Table from 'cli-table2';
-import { getStockInfo, getStockInfoStream } from 'twse';
-import numeral from 'numeral';
+import { getStockInfo } from 'twse';
 import { getSymbols, setSymbols } from './store';
-import {
-    askMenu,
-    askSymbolList,
-    askAddSymbol,
-    confirmRemoveSymbol
-} from './questions';
+import { askAddSymbol, confirmRemoveSymbol } from './questions';
 
 const renderAddSymbolScreen = async () => {
     clear();
@@ -42,20 +33,4 @@ const renderRemoveSymbolScreen = async symbol => {
     }
 
     renderMySymbolsScreen();
-};
-
-export const renderMySymbolsScreen = async () => {
-    clear();
-    const { symbol } = await askSymbolList();
-
-    switch (symbol) {
-        case 'Add new':
-            renderAddSymbolScreen();
-            break;
-        case 'Back to menu':
-            renderWelcomeScreen();
-            break;
-        default:
-            renderRemoveSymbolScreen(symbol);
-    }
 };

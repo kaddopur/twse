@@ -4,6 +4,7 @@ import '@babel/polyfill';
 import { renderTickerScreen, renderMySymbolsScreen } from './screens';
 import mainScreen from './screens/main';
 import tickerScreen from './screens/ticker';
+import symbolListScreen from './screens/symbolList';
 
 import { createStore } from 'redux';
 import rootReducer, { getScreen, updateScreen } from './ducks/screen';
@@ -22,8 +23,8 @@ function render() {
         case 'ticker':
             tickerScreen({ actions });
             break;
-        case 'symbols':
-            renderMySymbolsScreen({ actions });
+        case 'symbolList':
+            symbolListScreen({ actions });
             break;
         default:
             break;
