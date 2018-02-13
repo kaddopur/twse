@@ -7,17 +7,11 @@ import symbolListScreen from './screens/symbolList';
 import symbolAddScreen from './screens/symbolAdd';
 import symbolRemoveScreen from './screens/symbolRemove';
 
-import { createStore, combineReducers } from 'redux';
-import screenReducer, { getScreen, updateScreen } from './ducks/screen';
-import symbolsRecuder, { getSymbols, addSymbols } from './ducks/symbols';
+import { getScreen, updateScreen } from './ducks/screen';
+import { getSymbols, addSymbols } from './ducks/symbols';
 import { bindActionCreators } from 'redux';
+import store from './store';
 
-const rootReducer = combineReducers({
-    screen: screenReducer,
-    symbols: symbolsRecuder
-});
-
-const store = createStore(rootReducer);
 const actions = bindActionCreators(
     { updateScreen, addSymbols },
     store.dispatch
