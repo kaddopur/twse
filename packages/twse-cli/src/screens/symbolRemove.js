@@ -1,10 +1,11 @@
 import clear from 'clear';
 import { getStockInfo } from 'twse';
-import { getSymbols, setSymbols } from './store';
-import { askAddSymbol, confirmRemoveSymbol } from './questions';
+import { getSymbols, setSymbols } from '../store';
+import { askAddSymbol, confirmRemoveSymbol } from '../questions';
 
-const renderRemoveSymbolScreen = async symbol => {
+export default async ({ actions: { updateScreen } = {}, symbol }) => {
     clear();
+
     const { remove } = await confirmRemoveSymbol(symbol);
 
     if (remove) {
@@ -14,5 +15,5 @@ const renderRemoveSymbolScreen = async symbol => {
         setSymbols(newSymbols);
     }
 
-    renderMySymbolsScreen();
+    updateScreen('symbolList');
 };
