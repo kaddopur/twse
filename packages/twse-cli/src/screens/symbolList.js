@@ -1,9 +1,9 @@
 import clear from 'clear';
-import { askSymbolList } from '../questions';
+import chooseSymbol from '../questions/chooseSymbol';
 
 export default async ({ actions: { updateScreen } = {} }) => {
     clear();
-    const { symbol } = await askSymbolList();
+    const { symbol } = await chooseSymbol();
 
     switch (symbol) {
         case 'Add new':
