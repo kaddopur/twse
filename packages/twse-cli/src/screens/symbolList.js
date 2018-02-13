@@ -9,7 +9,7 @@ export default async ({ actions: { updateScreen } = {}, symbols = [] }) => {
         case 'Add new':
             return updateScreen('symbolAdd');
         case 'Back to menu':
-            return updateScreen('main');
+            return updateScreen('menu');
         default:
             return updateScreen('symbolRemove');
     }

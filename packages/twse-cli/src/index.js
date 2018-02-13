@@ -2,7 +2,7 @@
 
 import '@babel/polyfill';
 import { renderTickerScreen, renderMySymbolsScreen } from './screens';
-import mainScreen from './screens/main';
+import menuScreen from './screens/menu';
 import tickerScreen from './screens/ticker';
 import symbolListScreen from './screens/symbolList';
 import symbolAddScreen from './screens/symbolAdd';
@@ -37,8 +37,8 @@ function render() {
     prevScreen = screen;
 
     switch (screen) {
-        case 'main':
-            return mainScreen({ actions });
+        case 'menu':
+            return menuScreen({ actions });
         case 'ticker':
             return tickerScreen({ actions, symbols });
         case 'symbolList':

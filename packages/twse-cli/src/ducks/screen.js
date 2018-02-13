@@ -4,7 +4,7 @@ import { createAction, handleActions } from 'redux-actions';
 export const updateScreen = createAction('SCREEN_UPDATE');
 
 //- State
-const initialState = 'main';
+const initialState = 'menu';
 
 //- Reducers
 export default handleActions(
