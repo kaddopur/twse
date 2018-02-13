@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import Table from 'cli-table2';
 import { getStockInfoStream } from 'twse';
 import numeral from 'numeral';
+import confirmBackToMenu from '../questions/confirmBackToMenu';
 
 const coloring = (string, condition, bgColor) => {
     const upColor = chalk.red.bind(chalk);
@@ -142,7 +143,22 @@ export default async ({ actions: { updateScreen } = {}, symbols = [] }) => {
         return updateScreen({ name: 'menu' });
     }
 
-    getStockInfoStream(symbols.map(s => s.code)).subscribe(stockInfo => {
-        renderTickerTable(stockInfo);
-    });
+    let prompt = null;
+    const subscription = getStockInfoStream(symbols.map(s => s.code)).subscribe(
+        stockInfo => {
+            renderTickerTable(stockInfo);
+            console.log('');
+
+            if (!prompt) {
+                prompt = confirmBackToMenu().then(({ back }) => {
+                    subscription.unsubscribe();
+                    if (back) {
+                        updateScreen({ name: 'menu' });
+                    } else {
+                        updateScreen({ name: 'ticker' });
+                    }
+                });
+            }
+        }
+    );
 };
