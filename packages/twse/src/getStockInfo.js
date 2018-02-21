@@ -33,7 +33,6 @@ export default async (symbols = []) => {
             }
         });
         const { data: { msgArray: stockInfo = [] } = {} } = response;
-        console.log(stockInfo);
 
         return stockInfo;
     } catch (e) {
