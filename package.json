@@ -4,16 +4,33 @@
         "release": "lerna publish",
         "bootstrap": "lerna bootstrap",
         "build": "lerna run build",
-        "clean": "rimraf packages/**/dist"
+        "clean": "rimraf packages/**/dist",
+        "test": "jest"
     },
     "devDependencies": {
-        "lerna": "^2.8.0"
+        "@babel/core": "^7.0.0-beta.40",
+        "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.40",
+        "@babel/preset-env": "^7.0.0-beta.40",
+        "babel-core": "^7.0.0-0",
+        "babel-jest": "^22.4.0",
+        "jest": "^22.4.0",
+        "lerna": "^2.8.0",
+        "rimraf": "^2.6.2"
     },
     "license": "MIT",
     "workspaces": [
         "packages/*"
     ],
-    "dependencies": {
-        "rimraf": "^2.6.2"
+    "jest": {
+        "collectCoverage": true,
+        "verbose": true,
+        "testPathIgnorePatterns": [
+            "/node_modules/",
+            "/fixtures/",
+            "/__modules__/",
+            "/__files__/",
+            "/lib/",
+            "/dist/"
+        ]
     }
 }
