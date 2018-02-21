@@ -10,3 +10,5 @@ axios.defaults.paramsSerializer = params =>
 export { default as getStockInfo } from './getStockInfo';
 export { default as getStockInfoStream } from './getStockInfoStream';
 export { default as getStockName } from './getStockName';
+export { default as getOTCStocks } from './getOTCStocks';
+export { default as getTSEStocks } from './getTSEStocks';
