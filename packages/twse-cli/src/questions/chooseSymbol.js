@@ -7,6 +7,7 @@ export default symbols => {
             type: 'list',
             name: 'symbol',
             message: 'Add/remove your symbol',
+            pageSize: 50,
             choices: [
                 SYMBOLLIST_ADD,
                 ...symbols.map(s => `${s.code} ${s.name}`),
