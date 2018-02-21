@@ -39,15 +39,17 @@ function render() {
 
     switch (name) {
         case 'menu':
-            return menuScreen({ actions });
+            return menuScreen({ actions }).catch(() => {});
         case 'ticker':
-            return tickerScreen({ actions, symbols });
+            return tickerScreen({ actions, symbols }).catch(() => {});
         case 'symbolList':
-            return symbolListScreen({ actions, symbols });
+            return symbolListScreen({ actions, symbols }).catch(() => {});
         case 'symbolAdd':
-            return symbolAddScreen({ actions });
+            return symbolAddScreen({ actions }).catch(e => {
+                console.log(e);
+            });
         case 'symbolRemove':
-            return symbolRemoveScreen({ actions, params });
+            return symbolRemoveScreen({ actions, params }).catch(() => {});
         default:
             return;
     }
