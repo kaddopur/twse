@@ -1,14 +1,14 @@
-import { getStockInfo } from 'twse';
+import { getStockInfo, getStockName } from 'twse';
 import askNewSymbol from '../questions/askNewSymbol';
 
 export default async ({ actions: { updateScreen, addSymbol } = {} }) => {
     const { symbol } = await askNewSymbol();
-    const [stock] = await getStockInfo([symbol]);
+    const name = getStockName(symbol);
 
-    if (stock) {
+    if (name) {
         addSymbol({
-            code: stock.c,
-            name: stock.n
+            code: symbol,
+            name
         });
     }
 
