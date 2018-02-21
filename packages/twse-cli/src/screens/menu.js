@@ -2,6 +2,7 @@ import chalk from 'chalk';
 import figlet from 'figlet';
 import chooseMenu from '../questions/chooseMenu';
 import { MENU_TICKER, MENU_SYMBOLS } from '../locales/en';
+import { version } from '../../package.json';
 
 const renderWelcomeMessage = () => {
     console.log(
@@ -12,6 +13,7 @@ const renderWelcomeMessage = () => {
             })
         )
     );
+    console.log(chalk.red(`v${version}\n`));
 };
 
 export default async ({ actions: { updateScreen } = {} }) => {
