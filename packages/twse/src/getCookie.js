@@ -5,10 +5,11 @@ const REGEX_COOKIE = /(JSESSIONID=[^;]*)/;
 
 export default async () => {
     try {
-        const { headers = {} } = await axios(TWSE_STOCK_PAGE);
+        const { headers } = await axios(TWSE_STOCK_PAGE);
         const [cookie] = (headers['set-cookie'] || [])
             .find(header => REGEX_COOKIE.test(header))
             .match(REGEX_COOKIE);
+
         return cookie;
     } catch (e) {
         return null;

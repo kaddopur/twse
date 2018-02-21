@@ -7,5 +7,5 @@ axios.defaults.paramsSerializer = params =>
         .map(key => `${key}=${params[key]}`)
         .join('&');
 
-export { default as getStockInfo } from './lib/getStockInfo';
-export { default as getStockInfoStream } from './lib/getStockInfoStream';
+export { default as getStockInfo } from './getStockInfo';
+export { default as getStockInfoStream } from './getStockInfoStream';

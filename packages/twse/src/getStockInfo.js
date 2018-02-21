@@ -1,10 +1,11 @@
 import axios from 'axios';
 import getCookie from './getCookie';
 
+const TWSE_STOCK_API = `http://mis.twse.com.tw/stock/api/getStockInfo.jsp`;
+
 export default async (symbols = []) => {
     try {
-        const url = `http://mis.twse.com.tw/stock/api/getStockInfo.jsp`;
-        const response = await axios.get(url, {
+        const response = await axios.get(TWSE_STOCK_API, {
             headers: { Cookie: await getCookie() },
             params: {
                 ex_ch: symbols.map(symbol => `tse_${symbol}.tw`).join('|'),
