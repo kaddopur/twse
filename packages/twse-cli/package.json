@@ -1,6 +1,6 @@
 {
   "name": "twse-cli",
-  "version": "1.0.11",
+  "version": "1.1.0",
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
@@ -29,6 +29,6 @@
     "numeral": "^2.0.6",
     "redux": "^3.7.2",
     "redux-actions": "^2.2.1",
-    "twse": "^1.0.9"
+    "twse": "^1.1.0"
   }
 }
