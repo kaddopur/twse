@@ -1,10 +1,13 @@
 {
   "name": "twse",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "main": "dist/index.js",
   "license": "MIT",
   "description": "twse data fetcher",
-  "keywords": ["stocks", "twse"],
+  "keywords": [
+    "stocks",
+    "twse"
+  ],
   "bugs": "https://github.com/kaddopur/twse/issues",
   "author": "Jason C. Huang <chaoju.huang@gmail.com> (http://chaojuhuang.com/)",
   "contributors": [],

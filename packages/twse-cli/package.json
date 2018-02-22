@@ -1,10 +1,14 @@
 {
   "name": "twse-cli",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "main": "dist/index.js",
   "license": "MIT",
   "description": "CLI interface for twse",
-  "keywords": ["stocks", "cli", "twse"],
+  "keywords": [
+    "stocks",
+    "cli",
+    "twse"
+  ],
   "bugs": "https://github.com/kaddopur/twse/issues",
   "author": "Jason C. Huang <chaoju.huang@gmail.com> (http://chaojuhuang.com/)",
   "contributors": [],
@@ -34,7 +38,7 @@
     "numeral": "^2.0.6",
     "redux": "^3.7.2",
     "redux-actions": "^2.2.1",
-    "twse": "^1.2.0"
+    "twse": "^1.2.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.39",
