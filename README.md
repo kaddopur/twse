@@ -1,4 +1,6 @@
 # TWSE
+[![travis](https://img.shields.io/travis/kaddopur/twse.svg?style=flat-square)](https://travis-ci.org/kaddopur/twse)
+[![codecov](https://img.shields.io/codecov/c/github/kaddopur/twse/master.svg?style=flat-square)](https://codecov.io/gh/kaddopur/twse)
 
 這是一個非官方的 TWSE 函式庫集合，主要分為以下幾個函式庫
 
