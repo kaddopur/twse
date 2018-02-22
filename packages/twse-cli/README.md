@@ -6,7 +6,7 @@
 
 ## 安裝 / 執行
 
-```bash
-$ npm install -g twse-cli`
+```bash
+$ npm install -g twse-cli
 $ twse
 ```
