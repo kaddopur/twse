@@ -3,6 +3,16 @@
   "version": "1.2.0",
   "main": "dist/index.js",
   "license": "MIT",
+  "description": "twse data fetcher",
+  "keywords": ["stocks", "twse"],
+  "bugs": "https://github.com/kaddopur/twse/issues",
+  "author": "Jason C. Huang <chaoju.huang@gmail.com> (http://chaojuhuang.com/)",
+  "contributors": [],
+  "repository": "https://github.com/kaddopur/twse.git",
+  "homepage": "https://yarn.pm/twse",
+  "engines": {
+    "node": ">= 6.x"
+  },
   "scripts": {
     "prepublish": "npm run build",
     "build": "babel src -d dist --ignore **/__tests__"
