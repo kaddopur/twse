@@ -4,8 +4,8 @@
 
 ## twse
 
-負責拉取即時股價、上市/上櫃資訊。[README.md](packages/twse/README.md)
+負責拉取即時股價、上市/上櫃資訊。[README](packages/twse/)
 
 ## twse-cli
 
-提供 cli 介面顯示即時股價、到價/起漲桌面通知。[README.md](packages/twse-cli/README.md)
+提供 cli 介面顯示即時股價、到價/起漲桌面通知。[README](packages/twse-cli/)
