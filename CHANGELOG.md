@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-* 設定 travis, codecov, prettier
-
 ### Changed
 
 ### Deprecated
@@ -21,4 +19,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Security
 
-[unreleased]: https://github.com/kaddopur/twse/compare/v1.2.1...HEAD
+## [1.2.2] - 2018-02-22
+
+### Added
+
+* 設定 travis, codecov, prettier
+* 完善 package.json
+
+[unreleased]: https://github.com/kaddopur/twse/compare/v1.2.2...HEAD
+[1.2.2]: https://github.com/kaddopur/twse/compare/v1.2.1...v1.2.2
