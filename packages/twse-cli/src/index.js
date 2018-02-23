@@ -14,10 +14,7 @@ import { bindActionCreators } from 'redux';
 import store from './store';
 import conf from './conf';
 
-const actions = bindActionCreators(
-    { updateScreen, addSymbol, removeSymbol },
-    store.dispatch
-);
+const actions = bindActionCreators({ updateScreen, addSymbol, removeSymbol }, store.dispatch);
 
 let prevScreen = null;
 
@@ -39,17 +36,15 @@ function render() {
 
     switch (name) {
         case 'menu':
-            return menuScreen({ actions }).catch(() => {});
+            return menuScreen({ actions });
         case 'ticker':
-            return tickerScreen({ actions, symbols }).catch(() => {});
+            return tickerScreen({ actions, symbols });
         case 'symbolList':
-            return symbolListScreen({ actions, symbols }).catch(() => {});
+            return symbolListScreen({ actions, symbols });
         case 'symbolAdd':
-            return symbolAddScreen({ actions }).catch(e => {
-                console.log(e);
-            });
+            return symbolAddScreen({ actions });
         case 'symbolRemove':
-            return symbolRemoveScreen({ actions, params }).catch(() => {});
+            return symbolRemoveScreen({ actions, params });
         default:
             return;
     }
