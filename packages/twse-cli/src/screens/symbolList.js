@@ -1,9 +1,18 @@
-import chooseSymbol from '../questions/chooseSymbol';
-import { SYMBOLLIST_ADD, SYMBOLLIST_BACK } from '../locales/en';
 import { dispatch } from '@rematch/core';
+import prompt from '../prompt';
+import { SYMBOLLIST_ADD, SYMBOLLIST_BACK } from '../locales/en';
 
 export default async ({ symbols = [] }) => {
-    const { symbol } = await chooseSymbol(symbols);
+    const questions = [
+        {
+            type: 'list',
+            name: 'symbol',
+            message: 'Add/remove your symbol',
+            pageSize: 50,
+            choices: [SYMBOLLIST_ADD, ...symbols.map(s => `${s.code} ${s.name}`), SYMBOLLIST_BACK]
+        }
+    ];
+    const { symbol } = await prompt.ask(questions);
 
     switch (symbol) {
         case SYMBOLLIST_ADD:

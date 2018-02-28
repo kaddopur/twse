@@ -1,9 +1,16 @@
 import { getStockInfo } from 'twse';
-import confirmRemoveSymbol from '../questions/confirmRemoveSymbol';
 import { dispatch } from '@rematch/core';
+import prompt from '../prompt';
 
 export default async ({ params: { symbol } }) => {
-    const { remove } = await confirmRemoveSymbol(symbol);
+    const questions = [
+        {
+            type: 'confirm',
+            name: 'remove',
+            message: `Remove ${symbol}?`
+        }
+    ];
+    const { remove } = await prompt.ask(questions);
 
     if (remove) {
         const symbolCode = symbol.split(' ')[0];

@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+* _refactor_ 將 prompt 與 screen 放在一起
+
 ### Deprecated
 
 ### Removed
