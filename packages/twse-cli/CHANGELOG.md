@@ -19,6 +19,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Security
 
+## [1.4.0] - 2018-02-28
+
+### Added
+
+* 增加 `Option` 目錄選項
+* 支援紅/綠顏色選項調整
+
 ## [1.3.1] - 2018-02-28
 
 ### Changed
@@ -45,7 +52,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * 即時報價頁面完成。可以新增股票/顯示即時股價
 
-[unreleased]: https://github.com/kaddopur/twse/compare/v1.3.1...HEAD
+[unreleased]: https://github.com/kaddopur/twse/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/kaddopur/twse/compare/v1.3.1...v1.4.0
 [1.3.1]: https://github.com/kaddopur/twse/compare/v1.2.0...v1.3.1
 [1.2.0]: https://github.com/kaddopur/twse/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/kaddopur/twse/compare/v1.0.11...v1.1.0
