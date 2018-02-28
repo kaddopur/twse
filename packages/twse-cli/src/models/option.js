@@ -9,8 +9,14 @@ const option = {
         }
     },
     reducers: {
-        update(state, payload) {
-            return { ...state, ...payload };
+        updateOption(state, payload) {
+            return {
+                ...state,
+                options: {
+                    ...state.options,
+                    ...payload
+                }
+            };
         }
     },
     selectors: {

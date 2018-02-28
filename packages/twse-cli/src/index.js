@@ -8,6 +8,7 @@ import symbolListScreen from './screens/symbolList';
 import symbolAddScreen from './screens/symbolAdd';
 import symbolRemoveScreen from './screens/symbolRemove';
 import optionScreen from './screens/option';
+import optionEditScreen from './screens/optionEdit';
 
 import { getState } from '@rematch/core';
 import { select } from '@rematch/select';
@@ -46,6 +47,8 @@ function render() {
             return symbolRemoveScreen({ params });
         case 'option':
             return optionScreen({ optionOrder, options });
+        case 'optionEdit':
+            return optionEditScreen({ options, params });
         default:
             return;
     }
