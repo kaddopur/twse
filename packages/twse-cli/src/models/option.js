@@ -1,10 +1,11 @@
 const option = {
     state: {
-        order: ['invertColor'],
+        order: ['coloring'],
         options: {
-            invertColor: {
-                title: 'Invert color',
-                value: false
+            coloring: {
+                title: 'Coloring',
+                value: 'Taiwan',
+                choices: ['Taiwan', 'global']
             }
         }
     },

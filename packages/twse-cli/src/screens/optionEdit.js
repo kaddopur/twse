@@ -3,21 +3,22 @@ import prompt from '../prompt';
 
 export default async ({ options = {}, params = {} }) => {
     const { optionKey } = params;
-    const { title, value } = options[optionKey] || {};
+    const { title, value, choices } = options[optionKey] || {};
     const questions = [
         {
             type: 'list',
             name: 'newValue',
             message: `Set '${title}' to:`,
             default: String(value),
-            choices: ['true', 'false']
+            choices
         }
     ];
     const { newValue } = await prompt.ask(questions);
     dispatch.option.updateOption({
         [optionKey]: {
             title,
-            value: newValue === 'true'
+            value: newValue,
+            choices
         }
     });
 

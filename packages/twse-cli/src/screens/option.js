@@ -25,7 +25,7 @@ export default async ({ optionOrder: order, options }) => {
     switch (optionKey) {
         case OPTION_BACK:
             return dispatch.screen.update({ name: 'menu' });
-        case 'invertColor':
+        case 'coloring':
             return dispatch.screen.update({ name: 'optionEdit', params: { optionKey } });
     }
 };
