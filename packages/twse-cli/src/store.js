@@ -18,6 +18,4 @@ const store = init({
     plugins: [select]
 });
 
-console.log(Object.keys(store));
-
 export default store;
