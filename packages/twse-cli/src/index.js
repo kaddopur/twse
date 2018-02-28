@@ -38,7 +38,7 @@ function render() {
         case 'menu':
             return menuScreen();
         case 'ticker':
-            return tickerScreen({ symbols });
+            return tickerScreen({ symbols, options });
         case 'symbolList':
             return symbolListScreen({ symbols });
         case 'symbolAdd':

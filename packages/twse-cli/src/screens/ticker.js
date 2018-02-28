@@ -6,11 +6,18 @@ import numeral from 'numeral';
 import { dispatch } from '@rematch/core';
 import prompt from '../prompt';
 
+let invertColor = false;
+
 const coloring = (string, condition, bgColor) => {
-    const upColor = chalk.red.bind(chalk);
-    const downColor = chalk.green.bind(chalk);
-    const upBgColor = chalk.bgRed.bind(chalk);
-    const downBgColor = chalk.bgGreenBright.bind(chalk);
+    let upColor = chalk.red.bind(chalk);
+    let downColor = chalk.green.bind(chalk);
+    let upBgColor = chalk.bgRed.bind(chalk);
+    let downBgColor = chalk.bgGreenBright.bind(chalk);
+
+    if (invertColor) {
+        [upColor, downColor] = [downColor, upColor];
+        [upBgColor, downBgColor] = [downBgColor, upBgColor];
+    }
 
     if (bgColor) {
         return condition > 0 ? upBgColor(string) : downBgColor(string);
@@ -119,10 +126,12 @@ const renderTickerTable = (stockInfo = []) => {
     console.log(table.toString());
 };
 
-export default async ({ symbols = [] }) => {
+export default async ({ symbols = [], options = {} }) => {
     if (symbols.length === 0) {
         return dispatch.screen.update({ name: 'menu' });
     }
+
+    invertColor = options.invertColor.value;
 
     let backPrompt = null;
     const subscription = getStockInfoStream(symbols.map(s => s.code)).subscribe(stockInfo => {
