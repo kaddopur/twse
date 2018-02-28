@@ -8,24 +8,20 @@ import symbolListScreen from './screens/symbolList';
 import symbolAddScreen from './screens/symbolAdd';
 import symbolRemoveScreen from './screens/symbolRemove';
 
-import { getScreen, updateScreen } from './ducks/screen';
-import { getSymbols, addSymbol, removeSymbol } from './ducks/symbol';
-import { bindActionCreators } from 'redux';
+import { getState } from '@rematch/core';
+import { select } from '@rematch/select';
 import store from './store';
 import conf from './conf';
-
-const actions = bindActionCreators({ updateScreen, addSymbol, removeSymbol }, store.dispatch);
 
 let prevScreen = null;
 
 function render() {
     clear();
 
-    const state = store.getState();
-    const { screen: screenState, symbol: symbolState } = state;
-    const screen = getScreen(screenState);
-    const symbols = getSymbols(symbolState);
-    conf.set('appState', store.getState());
+    const state = getState();
+    const screen = select.screen.getScreen(state);
+    const symbols = select.symbol.getSymbols(state);
+    conf.set('appState', state);
 
     if (screen === prevScreen) {
         return;
@@ -36,15 +32,15 @@ function render() {
 
     switch (name) {
         case 'menu':
-            return menuScreen({ actions });
+            return menuScreen({});
         case 'ticker':
-            return tickerScreen({ actions, symbols });
+            return tickerScreen({ symbols });
         case 'symbolList':
-            return symbolListScreen({ actions, symbols });
+            return symbolListScreen({ symbols });
         case 'symbolAdd':
-            return symbolAddScreen({ actions });
+            return symbolAddScreen({});
         case 'symbolRemove':
-            return symbolRemoveScreen({ actions, params });
+            return symbolRemoveScreen({ params });
         default:
             return;
     }

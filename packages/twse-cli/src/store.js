@@ -1,16 +1,23 @@
-import { createStore, combineReducers } from 'redux';
-import screenReducer from './ducks/screen';
-import symbolReducer from './ducks/symbol';
 import conf from './conf';
+import selectorsPlugin from '@rematch/select';
+import { init, getState } from '@rematch/core';
+import * as models from './models';
 
-const rootReducer = combineReducers({
-    screen: screenReducer,
-    symbol: symbolReducer
-});
+const select = selectorsPlugin();
 
 const initialState = {
     ...conf.get('appState'),
     screen: { name: 'menu' }
 };
 
-export default createStore(rootReducer, initialState);
+const store = init({
+    // redux: {
+    //     initialState
+    // },
+    models,
+    plugins: [select]
+});
+
+console.log(Object.keys(store));
+
+export default store;
