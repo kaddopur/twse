@@ -7,6 +7,8 @@ import tickerScreen from './screens/ticker';
 import symbolListScreen from './screens/symbolList';
 import symbolAddScreen from './screens/symbolAdd';
 import symbolRemoveScreen from './screens/symbolRemove';
+import optionScreen from './screens/option';
+import optionEditScreen from './screens/optionEdit';
 
 import { getState } from '@rematch/core';
 import { select } from '@rematch/select';
@@ -21,6 +23,8 @@ function render() {
     const state = getState();
     const screen = select.screen.getScreen(state);
     const symbols = select.symbol.getSymbols(state);
+    const optionOrder = select.option.getOrder(state);
+    const options = select.option.getOptions(state);
     conf.set('appState', state);
 
     if (screen === prevScreen) {
@@ -34,13 +38,17 @@ function render() {
         case 'menu':
             return menuScreen();
         case 'ticker':
-            return tickerScreen({ symbols });
+            return tickerScreen({ symbols, options });
         case 'symbolList':
             return symbolListScreen({ symbols });
         case 'symbolAdd':
             return symbolAddScreen();
         case 'symbolRemove':
             return symbolRemoveScreen({ params });
+        case 'option':
+            return optionScreen({ optionOrder, options });
+        case 'optionEdit':
+            return optionEditScreen({ options, params });
         default:
             return;
     }

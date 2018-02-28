@@ -5,3 +5,5 @@ export const MENU_EXIT = 'Exit';
 
 export const SYMBOLLIST_ADD = 'Add new';
 export const SYMBOLLIST_BACK = 'Back to menu';
+
+export const OPTION_BACK = 'Back to menu';

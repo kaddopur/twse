@@ -7,9 +7,16 @@ export default async ({ symbols = [] }) => {
         {
             type: 'list',
             name: 'symbol',
-            message: 'Add/remove your symbol',
+            message: 'Add / Remove your symbol',
             pageSize: 50,
-            choices: [SYMBOLLIST_ADD, ...symbols.map(s => `${s.code} ${s.name}`), SYMBOLLIST_BACK]
+            choices: [
+                new prompt.Separator(),
+                SYMBOLLIST_ADD,
+                new prompt.Separator(),
+                ...symbols.map(s => `${s.code} ${s.name}`),
+                new prompt.Separator(),
+                SYMBOLLIST_BACK
+            ]
         }
     ];
     const { symbol } = await prompt.ask(questions);
