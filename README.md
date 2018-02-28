@@ -8,8 +8,12 @@
 
 ## twse
 
+![npm](https://img.shields.io/npm/v/twse.svg?style=flat-square)
+
 負責拉取即時股價、上市/上櫃資訊。[README](packages/twse/)
 
 ## twse-cli
+
+![npm](https://img.shields.io/npm/v/twse-cli.svg?style=flat-square)
 
 提供 cli 介面顯示即時股價、到價/起漲桌面通知。[README](packages/twse-cli/)
