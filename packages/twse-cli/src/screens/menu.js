@@ -3,7 +3,7 @@ import figlet from 'figlet';
 import { version } from '../../package.json';
 import { dispatch } from '@rematch/core';
 import prompt from '../prompt';
-import { MENU_TICKER, MENU_SYMBOLS, MENU_EXIT } from '../locales/en';
+import { MENU_TICKER, MENU_SYMBOLS, MENU_OPTION, MENU_EXIT } from '../locales/en';
 
 const renderWelcomeMessage = () => {
     console.log(
@@ -24,7 +24,7 @@ export default async () => {
             type: 'list',
             name: 'menu',
             message: 'What do you want to do?',
-            choices: [MENU_TICKER, MENU_SYMBOLS, MENU_EXIT]
+            choices: [MENU_TICKER, MENU_SYMBOLS, MENU_OPTION, MENU_EXIT]
         }
     ];
     const { menu } = await prompt.ask(questions);
@@ -34,5 +34,7 @@ export default async () => {
             return dispatch.screen.update({ name: 'ticker' });
         case MENU_SYMBOLS:
             return dispatch.screen.update({ name: 'symbolList' });
+        case MENU_OPTION:
+            return dispatch.screen.update({ name: 'option' });
     }
 };

@@ -7,6 +7,7 @@ import tickerScreen from './screens/ticker';
 import symbolListScreen from './screens/symbolList';
 import symbolAddScreen from './screens/symbolAdd';
 import symbolRemoveScreen from './screens/symbolRemove';
+import optionScreen from './screens/option';
 
 import { getState } from '@rematch/core';
 import { select } from '@rematch/select';
@@ -41,6 +42,8 @@ function render() {
             return symbolAddScreen();
         case 'symbolRemove':
             return symbolRemoveScreen({ params });
+        case 'option':
+            return optionScreen();
         default:
             return;
     }
