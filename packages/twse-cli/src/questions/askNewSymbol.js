@@ -6,13 +6,9 @@ import fuzzy from 'fuzzy';
 inquirer.registerPrompt('autocomplete', autocompletePrompt);
 
 const otc = getOTCStocks();
-const otcStocks = Object.entries(otc).map(
-    ([symbol, name]) => `${symbol} ${name}`
-);
+const otcStocks = Object.entries(otc).map(([symbol, name]) => `${symbol} ${name}`);
 const tse = getTSEStocks();
-const tseStocks = Object.entries(tse).map(
-    ([symbol, name]) => `${symbol} ${name}`
-);
+const tseStocks = Object.entries(tse).map(([symbol, name]) => `${symbol} ${name}`);
 const stocks = [...otcStocks, ...tseStocks];
 
 export default () => {
@@ -26,7 +22,10 @@ export default () => {
                     return Promise.resolve([]);
                 }
                 return Promise.resolve().then(() =>
-                    fuzzy.filter(input, stocks).map(ele => ele.original)
+                    fuzzy
+                        .filter(input, stocks)
+                        .map(ele => ele.original)
+                        .sort((lhs, rhs) => parseInt(lhs) - parseInt(rhs))
                 );
             }
         }
