@@ -1,9 +1,9 @@
 import chalk from 'chalk';
 import figlet from 'figlet';
-import chooseMenu from '../questions/chooseMenu';
-import { MENU_TICKER, MENU_SYMBOLS } from '../locales/en';
 import { version } from '../../package.json';
 import { dispatch } from '@rematch/core';
+import prompt from '../prompt';
+import { MENU_TICKER, MENU_SYMBOLS, MENU_EXIT } from '../locales/en';
 
 const renderWelcomeMessage = () => {
     console.log(
@@ -19,8 +19,15 @@ const renderWelcomeMessage = () => {
 
 export default async () => {
     renderWelcomeMessage();
-
-    const { menu } = await chooseMenu();
+    const questions = [
+        {
+            type: 'list',
+            name: 'menu',
+            message: 'What do you want to do?',
+            choices: [MENU_TICKER, MENU_SYMBOLS, MENU_EXIT]
+        }
+    ];
+    const { menu } = await prompt.ask(questions);
 
     switch (menu) {
         case MENU_TICKER:

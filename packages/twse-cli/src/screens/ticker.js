@@ -3,8 +3,8 @@ import chalk from 'chalk';
 import Table from 'cli-table2';
 import { getStockInfoStream } from 'twse';
 import numeral from 'numeral';
-import confirmBackToMenu from '../questions/confirmBackToMenu';
 import { dispatch } from '@rematch/core';
+import prompt from '../prompt';
 
 const coloring = (string, condition, bgColor) => {
     const upColor = chalk.red.bind(chalk);
@@ -124,13 +124,20 @@ export default async ({ symbols = [] }) => {
         return dispatch.screen.update({ name: 'menu' });
     }
 
-    let prompt = null;
+    let backPrompt = null;
     const subscription = getStockInfoStream(symbols.map(s => s.code)).subscribe(stockInfo => {
         renderTickerTable(stockInfo);
         console.log('');
 
-        if (!prompt) {
-            prompt = confirmBackToMenu().then(({ back }) => {
+        if (!backPrompt) {
+            const questions = [
+                {
+                    type: 'confirm',
+                    name: 'back',
+                    message: `Back to menu?`
+                }
+            ];
+            backPrompt = prompt.ask(questions).then(({ back }) => {
                 subscription.unsubscribe();
                 if (back) {
                     dispatch.screen.update({ name: 'menu' });
