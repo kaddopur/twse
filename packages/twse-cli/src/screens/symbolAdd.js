@@ -8,14 +8,14 @@ const otc = getOTCStocks();
 const otcStocks = Object.entries(otc).map(([symbol, name]) => `${symbol} ${name}`);
 const tse = getTSEStocks();
 const tseStocks = Object.entries(tse).map(([symbol, name]) => `${symbol} ${name}`);
-const stocks = [...otcStocks, ...tseStocks];
+const stocks = [...otcStocks, ...tseStocks, 'exit'];
 
 export default async () => {
     const questions = [
         {
             type: 'autocomplete',
             name: 'symbol',
-            message: 'Enter new symbol:',
+            message: 'Enter new symbol (Type exit to quit):',
             source: (answers, input) => {
                 if (!input) {
                     return Promise.resolve([]);
