@@ -3,6 +3,7 @@ import figlet from 'figlet';
 import chooseMenu from '../questions/chooseMenu';
 import { MENU_TICKER, MENU_SYMBOLS } from '../locales/en';
 import { version } from '../../package.json';
+import { dispatch } from '@rematch/core';
 
 const renderWelcomeMessage = () => {
     console.log(
@@ -16,15 +17,15 @@ const renderWelcomeMessage = () => {
     console.log(chalk.red(`v${version}\n`));
 };
 
-export default async ({ actions: { updateScreen } = {} }) => {
+export default async () => {
     renderWelcomeMessage();
 
     const { menu } = await chooseMenu();
 
     switch (menu) {
         case MENU_TICKER:
-            return updateScreen({ name: 'ticker' });
+            return dispatch.screen.update({ name: 'ticker' });
         case MENU_SYMBOLS:
-            return updateScreen({ name: 'symbolList' });
+            return dispatch.screen.update({ name: 'symbolList' });
     }
 };

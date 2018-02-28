@@ -32,13 +32,13 @@ function render() {
 
     switch (name) {
         case 'menu':
-            return menuScreen({});
+            return menuScreen();
         case 'ticker':
             return tickerScreen({ symbols });
         case 'symbolList':
             return symbolListScreen({ symbols });
         case 'symbolAdd':
-            return symbolAddScreen({});
+            return symbolAddScreen();
         case 'symbolRemove':
             return symbolRemoveScreen({ params });
         default:

@@ -11,9 +11,9 @@ const initialState = {
 };
 
 const store = init({
-    // redux: {
-    //     initialState
-    // },
+    redux: {
+        initialState
+    },
     models,
     plugins: [select]
 });

@@ -5,7 +5,7 @@ const screen = {
     },
     reducers: {
         update(state, payload) {
-            return payload;
+            return { ...payload };
         }
     },
     selectors: {

@@ -1,15 +1,16 @@
 import chooseSymbol from '../questions/chooseSymbol';
 import { SYMBOLLIST_ADD, SYMBOLLIST_BACK } from '../locales/en';
+import { dispatch } from '@rematch/core';
 
-export default async ({ actions: { updateScreen } = {}, symbols = [] }) => {
+export default async ({ symbols = [] }) => {
     const { symbol } = await chooseSymbol(symbols);
 
     switch (symbol) {
         case SYMBOLLIST_ADD:
-            return updateScreen({ name: 'symbolAdd' });
+            return dispatch.screen.update({ name: 'symbolAdd' });
         case SYMBOLLIST_BACK:
-            return updateScreen({ name: 'menu' });
+            return dispatch.screen.update({ name: 'menu' });
         default:
-            return updateScreen({ name: 'symbolRemove', params: { symbol } });
+            return dispatch.screen.update({ name: 'symbolRemove', params: { symbol } });
     }
 };
