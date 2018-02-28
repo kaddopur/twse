@@ -22,6 +22,8 @@ function render() {
     const state = getState();
     const screen = select.screen.getScreen(state);
     const symbols = select.symbol.getSymbols(state);
+    const optionOrder = select.option.getOrder(state);
+    const options = select.option.getOptions(state);
     conf.set('appState', state);
 
     if (screen === prevScreen) {
@@ -43,7 +45,7 @@ function render() {
         case 'symbolRemove':
             return symbolRemoveScreen({ params });
         case 'option':
-            return optionScreen();
+            return optionScreen({ optionOrder, options });
         default:
             return;
     }
