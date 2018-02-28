@@ -19,6 +19,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Security
 
+## [1.3.1] - 2018-02-28
+
+### Fixed
+
+* 移除不相干之 OTC 股票
+
 ## [1.1.0] - 2018-02-21
 
 ### Added
@@ -34,6 +40,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * `getStockInfo` 一次性抓取即時股價資料
 * `getStockInfoStream` 回傳 Rx.Observable 連續抓取即時股價資料
 
-[unreleased]: https://github.com/kaddopur/twse/compare/v1.1.0...HEAD
+[unreleased]: https://github.com/kaddopur/twse/compare/v1.3.1...HEAD
+[1.3.1]: https://github.com/kaddopur/twse/compare/v1.1.0...v1.3.1
 [1.1.0]: https://github.com/kaddopur/twse/compare/v1.0.11...v1.1.0
 [1.0.11]: https://github.com/kaddopur/twse/compare/v1.0.8...v1.0.11
