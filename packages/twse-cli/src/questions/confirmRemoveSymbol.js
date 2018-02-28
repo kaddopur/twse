@@ -1,4 +1,4 @@
-import inquirer from 'inquirer';
+import prompt from '../prompt';
 
 export default symbol => {
     const questions = [
@@ -8,5 +8,5 @@ export default symbol => {
             message: `Remove ${symbol}?`
         }
     ];
-    return inquirer.prompt(questions);
+    return prompt.ask(questions);
 };

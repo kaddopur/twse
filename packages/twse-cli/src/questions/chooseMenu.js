@@ -1,4 +1,4 @@
-import inquirer from 'inquirer';
+import prompt from '../prompt';
 import { MENU_TICKER, MENU_SYMBOLS, MENU_EXIT } from '../locales/en';
 
 export default () => {
@@ -10,5 +10,5 @@ export default () => {
             choices: [MENU_TICKER, MENU_SYMBOLS, MENU_EXIT]
         }
     ];
-    return inquirer.prompt(questions);
+    return prompt.ask(questions);
 };

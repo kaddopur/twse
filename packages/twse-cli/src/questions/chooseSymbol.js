@@ -1,4 +1,4 @@
-import inquirer from 'inquirer';
+import prompt from '../prompt';
 import { SYMBOLLIST_ADD, SYMBOLLIST_BACK } from '../locales/en';
 
 export default symbols => {
@@ -8,12 +8,8 @@ export default symbols => {
             name: 'symbol',
             message: 'Add/remove your symbol',
             pageSize: 50,
-            choices: [
-                SYMBOLLIST_ADD,
-                ...symbols.map(s => `${s.code} ${s.name}`),
-                SYMBOLLIST_BACK
-            ]
+            choices: [SYMBOLLIST_ADD, ...symbols.map(s => `${s.code} ${s.name}`), SYMBOLLIST_BACK]
         }
     ];
-    return inquirer.prompt(questions);
+    return prompt.ask(questions);
 };

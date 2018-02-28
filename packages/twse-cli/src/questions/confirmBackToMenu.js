@@ -1,4 +1,4 @@
-import inquirer from 'inquirer';
+import prompt from '../prompt';
 
 export default () => {
     const questions = [
@@ -8,5 +8,5 @@ export default () => {
             message: `Back to menu?`
         }
     ];
-    return inquirer.prompt(questions);
+    return prompt.ask(questions);
 };

@@ -1,9 +1,6 @@
-import inquirer from 'inquirer';
-import autocompletePrompt from 'inquirer-autocomplete-prompt';
 import { getOTCStocks, getTSEStocks } from 'twse';
 import fuzzy from 'fuzzy';
-
-inquirer.registerPrompt('autocomplete', autocompletePrompt);
+import prompt from '../prompt';
 
 const otc = getOTCStocks();
 const otcStocks = Object.entries(otc).map(([symbol, name]) => `${symbol} ${name}`);
@@ -30,5 +27,5 @@ export default () => {
             }
         }
     ];
-    return inquirer.prompt(questions);
+    return prompt.ask(questions);
 };
