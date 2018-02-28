@@ -27,6 +27,8 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0-beta.39",
+    "@rematch/core": "^0.4.1",
+    "@rematch/select": "^0.2.2",
     "chalk": "^2.3.1",
     "clear": "^0.0.1",
     "cli-table2": "^0.2.0",
@@ -36,8 +38,6 @@
     "inquirer": "^5.1.0",
     "inquirer-autocomplete-prompt": "^0.12.1",
     "numeral": "^2.0.6",
-    "redux": "^3.7.2",
-    "redux-actions": "^2.2.1",
     "twse": "^1.2.2"
   },
   "devDependencies": {

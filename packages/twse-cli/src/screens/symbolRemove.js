@@ -1,16 +1,14 @@
 import { getStockInfo } from 'twse';
 import confirmRemoveSymbol from '../questions/confirmRemoveSymbol';
+import { dispatch } from '@rematch/core';
 
-export default async ({
-    actions: { updateScreen, removeSymbol } = {},
-    params: { symbol }
-}) => {
+export default async ({ params: { symbol } }) => {
     const { remove } = await confirmRemoveSymbol(symbol);
 
     if (remove) {
         const symbolCode = symbol.split(' ')[0];
-        removeSymbol(symbolCode);
+        dispatch.symbol.remove(symbolCode);
     }
 
-    updateScreen({ name: 'symbolList' });
+    dispatch.screen.update({ name: 'symbolList' });
 };

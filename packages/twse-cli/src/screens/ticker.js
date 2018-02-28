@@ -4,6 +4,7 @@ import Table from 'cli-table2';
 import { getStockInfoStream } from 'twse';
 import numeral from 'numeral';
 import confirmBackToMenu from '../questions/confirmBackToMenu';
+import { dispatch } from '@rematch/core';
 
 const coloring = (string, condition, bgColor) => {
     const upColor = chalk.red.bind(chalk);
@@ -75,17 +76,11 @@ const renderTickerTable = (stockInfo = []) => {
                 hAlign: 'right'
             },
             {
-                content: coloring(
-                    numeral(stock.z - stock.y).format('0.00'),
-                    stock.z - stock.y
-                ),
+                content: coloring(numeral(stock.z - stock.y).format('0.00'), stock.z - stock.y),
                 hAlign: 'right'
             },
             {
-                content: coloring(
-                    numeral((stock.z - stock.y) / stock.y).format('+0.00%'),
-                    stock.z - stock.y
-                ),
+                content: coloring(numeral((stock.z - stock.y) / stock.y).format('+0.00%'), stock.z - stock.y),
                 hAlign: 'right'
             },
             {
@@ -93,35 +88,21 @@ const renderTickerTable = (stockInfo = []) => {
                     numeral(stock.tv).format('0,0'),
                     stock.a === '-'
                         ? 1
-                        : stock.b === '-'
-                          ? -1
-                          : 2 * stock.z -
-                            stock.a.split('_')[0] -
-                            stock.b.split('_')[0]
+                        : stock.b === '-' ? -1 : 2 * stock.z - stock.a.split('_')[0] - stock.b.split('_')[0]
                 ),
                 hAlign: 'right'
             },
             { content: numeral(stock.v).format('0,0'), hAlign: 'right' },
             {
-                content: coloring(
-                    numeral(stock.h).format('0.00'),
-                    stock.h - stock.y,
-                    stock.h === stock.u
-                ),
+                content: coloring(numeral(stock.h).format('0.00'), stock.h - stock.y, stock.h === stock.u),
                 hAlign: 'right'
             },
             {
-                content: coloring(
-                    numeral(stock.l).format('0.00'),
-                    stock.l - stock.y,
-                    stock.l === stock.w
-                ),
+                content: coloring(numeral(stock.l).format('0.00'), stock.l - stock.y, stock.l === stock.w),
                 hAlign: 'right'
             },
             {
-                content: numeral((stock.h - stock.l) / stock.y).format(
-                    '+0.00%'
-                ),
+                content: numeral((stock.h - stock.l) / stock.y).format('+0.00%'),
                 hAlign: 'right'
             }
         ]);
@@ -138,27 +119,25 @@ const renderTickerTable = (stockInfo = []) => {
     console.log(table.toString());
 };
 
-export default async ({ actions: { updateScreen } = {}, symbols = [] }) => {
+export default async ({ symbols = [] }) => {
     if (symbols.length === 0) {
-        return updateScreen({ name: 'menu' });
+        return dispatch.screen.update({ name: 'menu' });
     }
 
     let prompt = null;
-    const subscription = getStockInfoStream(symbols.map(s => s.code)).subscribe(
-        stockInfo => {
-            renderTickerTable(stockInfo);
-            console.log('');
+    const subscription = getStockInfoStream(symbols.map(s => s.code)).subscribe(stockInfo => {
+        renderTickerTable(stockInfo);
+        console.log('');
 
-            if (!prompt) {
-                prompt = confirmBackToMenu().then(({ back }) => {
-                    subscription.unsubscribe();
-                    if (back) {
-                        updateScreen({ name: 'menu' });
-                    } else {
-                        updateScreen({ name: 'ticker' });
-                    }
-                });
-            }
+        if (!prompt) {
+            prompt = confirmBackToMenu().then(({ back }) => {
+                subscription.unsubscribe();
+                if (back) {
+                    dispatch.screen.update({ name: 'menu' });
+                } else {
+                    dispatch.screen.update({ name: 'ticker' });
+                }
+            });
         }
-    );
+    });
 };

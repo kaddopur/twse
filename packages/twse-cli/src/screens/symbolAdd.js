@@ -1,12 +1,13 @@
 import { getStockInfo, getStockName } from 'twse';
 import askNewSymbol from '../questions/askNewSymbol';
+import { dispatch } from '@rematch/core';
 
-export default async ({ actions: { updateScreen, addSymbol } = {} }) => {
+export default async () => {
     const { symbol } = await askNewSymbol();
     const [code, name] = symbol.split(' ');
 
     if (name) {
-        addSymbol({ code, name });
+        dispatch.symbol.add({ code, name });
     }
-    updateScreen({ name: 'symbolList' });
+    dispatch.screen.update({ name: 'symbolList' });
 };
