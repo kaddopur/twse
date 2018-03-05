@@ -134,48 +134,61 @@ const renderTickerTable = (stockInfo = []) => {
 
 const checkNotifiers = (stockInfo = [], notifiers = []) => {
     stockInfo.forEach(stock => {
-        const { conditions = [], cost = null } = notifiers.find(entry => entry.symbol === stock.c) || {};
+        const { conditions = [], cost = null } = notifiers[stock.c] || {};
 
-        conditions.forEach(({ type, price, rate }) => {
+        conditions.forEach(({ type, price, rate, firedAt }, index) => {
+            if (firedAt) {
+                // fired once per condition
+                return;
+            }
+
             switch (type) {
                 case '>=':
                     if (stock.z >= price) {
-                        nn.notify({
-                            title: `${stock.c} ${stock.n}`,
-                            message: `上漲突破 ${price}\n現在價位 ${stock.z}`,
-                            sound: true
-                        });
+                        fireNotification(stock, index, `上漲突破 ${price}\n現在價位 ${stock.z}`);
                     }
                     break;
                 case '<=':
                     if (stock.z <= price) {
-                        nn.notify({
-                            title: `${stock.c} ${stock.n}`,
-                            message: `下跌突破 ${price}\n現在價位 ${stock.z}`,
-                            sound: true
-                        });
+                        fireNotification(stock, index, `下跌突破 ${price}\n現在價位 ${stock.z}`);
                     }
                     break;
                 case '%>=':
                     if (cost !== null && stock.z >= cost * (1 + rate)) {
-                        nn.notify({
-                            title: `${stock.c} ${stock.n}`,
-                            message: `上漲突破 ${numeral(rate).format('0.00%')}\n現在價位 ${stock.z}`,
-                            sound: true
-                        });
+                        fireNotification(
+                            stock,
+                            index,
+                            `上漲突破 ${numeral(rate).format('0.00%')}\n現在價位 ${stock.z}`
+                        );
                     }
                     break;
                 case '%<=':
                     if (cost !== null && stock.z <= cost * (1 - rate)) {
-                        nn.notify({
-                            title: `${stock.c} ${stock.n}`,
-                            message: `下跌突破 ${numeral(rate).format('0.00%')}\n現在價位 ${stock.z}`,
-                            sound: true
-                        });
+                        fireNotification(
+                            stock,
+                            index,
+                            `下跌突破 ${numeral(rate).format('0.00%')}\n現在價位 ${stock.z}`
+                        );
                     }
                     break;
             }
         });
+    });
+};
+
+const fireNotification = (stock, index, message) => {
+    nn.notify({
+        title: `${stock.c} ${stock.n}`,
+        message,
+        sound: true
+    });
+
+    dispatch.notifier.updateCondition({
+        symbol: stock.c,
+        index,
+        newCondition: {
+            firedAt: new Date()
+        }
     });
 };
 

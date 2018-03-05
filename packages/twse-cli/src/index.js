@@ -18,8 +18,6 @@ import conf from './conf';
 let prevScreen = null;
 
 function render() {
-    clear();
-
     const state = getState();
     const screen = select.screen.getScreen(state);
     const symbols = select.symbol.getSymbols(state);
@@ -32,6 +30,7 @@ function render() {
         return;
     }
     prevScreen = screen;
+    clear();
 
     const { name, params } = screen;
 

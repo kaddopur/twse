@@ -1,8 +1,7 @@
 const notifier = {
     state: {
-        notifiers: [
-            {
-                symbol: '0061',
+        notifiers: {
+            '0061': {
                 cost: 18.95,
                 share: 20000,
                 conditions: [
@@ -24,9 +23,25 @@ const notifier = {
                     }
                 ]
             }
-        ]
+        }
     },
-    reducers: {},
+    reducers: {
+        updateCondition(state, payload) {
+            const { symbol, index, newCondition } = payload;
+            const { conditions } = state.notifiers[symbol];
+
+            state.notifiers[symbol].conditions = [
+                ...conditions.slice(0, index),
+                {
+                    ...conditions[index],
+                    ...newCondition
+                },
+                ...conditions.slice(index + 1)
+            ];
+
+            return state;
+        }
+    },
     selectors: {
         getNotifiers(state = {}) {
             return state.notifiers || [];
