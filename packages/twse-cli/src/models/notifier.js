@@ -40,6 +40,23 @@ const notifier = {
             ];
 
             return state;
+        },
+        cleanUpFiredAt(state) {
+            Object.keys(state.notifiers).forEach(symbol => {
+                const { conditions = [] } = state.notifiers[symbol];
+
+                state.notifiers[symbol] = {
+                    ...state.notifiers[symbol],
+                    conditions: conditions.map(entry => {
+                        const newEntry = { ...entry };
+
+                        delete newEntry.firedAt;
+                        return newEntry;
+                    })
+                };
+            });
+
+            return state;
         }
     },
     selectors: {
