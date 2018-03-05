@@ -206,8 +206,8 @@ export default async ({ symbols = [], options = {}, notifiers = [] }) => {
     if (symbols.length === 0) {
         return dispatch.screen.update({ name: 'menu' });
     }
-
     invertColor = options.coloring.value !== 'Taiwan';
+    dispatch.notifier.cleanUpFiredAt();
 
     let backPrompt = null;
     const subscription = getStockInfoStream(symbols.map(s => s.code)).subscribe(stockInfo => {

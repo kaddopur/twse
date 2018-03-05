@@ -10,7 +10,7 @@ import symbolRemoveScreen from './screens/symbolRemove';
 import optionScreen from './screens/option';
 import optionEditScreen from './screens/optionEdit';
 
-import { getState, dispatch } from '@rematch/core';
+import { getState } from '@rematch/core';
 import { select } from '@rematch/select';
 import store from './store';
 import conf from './conf';
@@ -55,6 +55,4 @@ function render() {
 }
 
 store.subscribe(render);
-
-dispatch.notifier.cleanUpFiredAt();
 render();
