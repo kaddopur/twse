@@ -145,12 +145,20 @@ const checkNotifiers = (stockInfo = [], notifiers = []) => {
             switch (type) {
                 case '>=':
                     if (stock.z >= price) {
-                        fireNotification(stock, index, `上漲突破 ${price}\n現在價位 ${stock.z}`);
+                        fireNotification(
+                            stock,
+                            index,
+                            `上漲突破 ${numeral(price).format('0.00')}\n現在價位 ${numeral(stock.z).format('0.00')}`
+                        );
                     }
                     break;
                 case '<=':
                     if (stock.z <= price) {
-                        fireNotification(stock, index, `下跌突破 ${price}\n現在價位 ${stock.z}`);
+                        fireNotification(
+                            stock,
+                            index,
+                            `下跌突破 ${numeral(price).format('0.00')}\n現在價位 ${numeral(stock.z).format('0.00')}`
+                        );
                     }
                     break;
                 case '%>=':
@@ -158,7 +166,7 @@ const checkNotifiers = (stockInfo = [], notifiers = []) => {
                         fireNotification(
                             stock,
                             index,
-                            `上漲突破 ${numeral(rate).format('0.00%')}\n現在價位 ${stock.z}`
+                            `上漲突破 ${numeral(rate).format('0.00%')}\n現在價位 ${numeral(stock.z).format('0.00')}`
                         );
                     }
                     break;
@@ -167,7 +175,7 @@ const checkNotifiers = (stockInfo = [], notifiers = []) => {
                         fireNotification(
                             stock,
                             index,
-                            `下跌突破 ${numeral(rate).format('0.00%')}\n現在價位 ${stock.z}`
+                            `下跌突破 ${numeral(rate).format('0.00%')}\n現在價位 ${numeral(stock.z).format('0.00')}`
                         );
                     }
                     break;
@@ -179,8 +187,10 @@ const checkNotifiers = (stockInfo = [], notifiers = []) => {
 const fireNotification = (stock, index, message) => {
     nn.notify({
         title: `${stock.c} ${stock.n}`,
+        subtitle: `${stock.d} ${stock.t}`,
         message,
-        sound: true
+        sound: true,
+        reply: true
     });
 
     dispatch.notifier.updateCondition({
