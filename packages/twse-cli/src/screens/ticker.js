@@ -5,6 +5,7 @@ import { getStockInfoStream } from 'twse';
 import numeral from 'numeral';
 import { dispatch } from '@rematch/core';
 import prompt from '../prompt';
+import nn from 'node-notifier';
 
 let invertColor = false;
 
@@ -131,7 +132,54 @@ const renderTickerTable = (stockInfo = []) => {
     console.log(table.toString());
 };
 
-export default async ({ symbols = [], options = {} }) => {
+const checkNotifiers = (stockInfo = [], notifiers = []) => {
+    stockInfo.forEach(stock => {
+        const { conditions = [], cost = null } = notifiers.find(entry => entry.symbol === stock.c) || {};
+
+        conditions.forEach(({ type, price, rate }) => {
+            switch (type) {
+                case '>=':
+                    if (stock.z >= price) {
+                        nn.notify({
+                            title: `${stock.c} ${stock.n}`,
+                            message: `上漲突破 ${price}\n現在價位 ${stock.z}`,
+                            sound: true
+                        });
+                    }
+                    break;
+                case '<=':
+                    if (stock.z <= price) {
+                        nn.notify({
+                            title: `${stock.c} ${stock.n}`,
+                            message: `下跌突破 ${price}\n現在價位 ${stock.z}`,
+                            sound: true
+                        });
+                    }
+                    break;
+                case '%>=':
+                    if (cost !== null && stock.z >= cost * (1 + rate)) {
+                        nn.notify({
+                            title: `${stock.c} ${stock.n}`,
+                            message: `上漲突破 ${numeral(rate).format('0.00%')}\n現在價位 ${stock.z}`,
+                            sound: true
+                        });
+                    }
+                    break;
+                case '%<=':
+                    if (cost !== null && stock.z <= cost * (1 - rate)) {
+                        nn.notify({
+                            title: `${stock.c} ${stock.n}`,
+                            message: `下跌突破 ${numeral(rate).format('0.00%')}\n現在價位 ${stock.z}`,
+                            sound: true
+                        });
+                    }
+                    break;
+            }
+        });
+    });
+};
+
+export default async ({ symbols = [], options = {}, notifiers = [] }) => {
     if (symbols.length === 0) {
         return dispatch.screen.update({ name: 'menu' });
     }
@@ -141,6 +189,7 @@ export default async ({ symbols = [], options = {} }) => {
     let backPrompt = null;
     const subscription = getStockInfoStream(symbols.map(s => s.code)).subscribe(stockInfo => {
         renderTickerTable(stockInfo);
+        checkNotifiers(stockInfo, notifiers);
         console.log('');
 
         if (!backPrompt) {

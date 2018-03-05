@@ -25,6 +25,7 @@ function render() {
     const symbols = select.symbol.getSymbols(state);
     const optionOrder = select.option.getOrder(state);
     const options = select.option.getOptions(state);
+    const notifiers = select.notifier.getNotifiers(state);
     conf.set('appState', state);
 
     if (screen === prevScreen) {
@@ -38,7 +39,7 @@ function render() {
         case 'menu':
             return menuScreen();
         case 'ticker':
-            return tickerScreen({ symbols, options });
+            return tickerScreen({ symbols, options, notifiers });
         case 'symbolList':
             return symbolListScreen({ symbols });
         case 'symbolAdd':
