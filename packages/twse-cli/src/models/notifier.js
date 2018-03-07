@@ -1,29 +1,32 @@
 const notifier = {
+    // state: {
+    //     notifiers: {
+    //         '0061': {
+    //             cost: 18.95,
+    //             share: 20000,
+    //             conditions: [
+    //                 {
+    //                     type: '>=',
+    //                     price: 19.16
+    //                 },
+    //                 {
+    //                     type: '<=',
+    //                     price: 18.5
+    //                 },
+    //                 {
+    //                     type: '%>=',
+    //                     rate: 0.05
+    //                 },
+    //                 {
+    //                     type: '%<=',
+    //                     rate: 0.05
+    //                 }
+    //             ]
+    //         }
+    //     }
+    // },
     state: {
-        notifiers: {
-            '0061': {
-                cost: 18.95,
-                share: 20000,
-                conditions: [
-                    {
-                        type: '>=',
-                        price: 19.16
-                    },
-                    {
-                        type: '<=',
-                        price: 18.5
-                    },
-                    {
-                        type: '%>=',
-                        rate: 0.05
-                    },
-                    {
-                        type: '%<=',
-                        rate: 0.05
-                    }
-                ]
-            }
-        }
+        notifiers: {}
     },
     reducers: {
         updateCondition(state, payload) {
@@ -42,7 +45,7 @@ const notifier = {
                 ]
             };
 
-            return state;
+            return this['notifier/sortCondition'](state, { code: symbol });
         },
         addCondition(state, payload) {
             const { symbol, type, value } = payload;
@@ -65,13 +68,13 @@ const notifier = {
                         ...conditions,
                         {
                             type,
-                            [type === '>=' || type === '<=' ? 'price' : 'rate']: value
+                            [type === '>=' || type === '<=' ? 'price' : 'rate']: parseFloat(value)
                         }
                     ]
                 };
             }
 
-            return state;
+            return this['notifier/sortCondition'](state, { code });
         },
         removeCondition(state, payload) {
             const { symbol, notifier } = payload;
@@ -92,6 +95,33 @@ const notifier = {
             return state;
         },
         sortCondition(state, payload) {
+            const order = ['>=', '<=', '%>=', '%<='];
+            const { code } = payload;
+            const { conditions = [] } = state.notifiers[code] || {};
+
+            state.notifiers[code] = {
+                ...state.notifiers[code],
+                conditions: [
+                    ...conditions.sort((lhs, rhs) => {
+                        if (lhs.type === rhs.type) {
+                            switch (lhs.type) {
+                                case '>=':
+                                case '<=':
+                                    return rhs.price - lhs.price;
+                                case '%>=':
+                                    return rhs.rate - lhs.rate;
+                                case '%<=':
+                                    return lhs.rate - rhs.rate;
+                                default:
+                                    return 0;
+                            }
+                        }
+
+                        return order.indexOf(lhs.type) - order.indexOf(rhs.type);
+                    })
+                ]
+            };
+
             return state;
         },
         cleanUpFiredAt(state) {
