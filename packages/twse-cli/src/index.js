@@ -48,7 +48,7 @@ function render() {
         case 'symbolEdit':
             return symbolEditScreen({ params, notifiers });
         case 'symbolNotifier':
-            return symbolNotifierScreen({ params });
+            return symbolNotifierScreen({ params, notifiers });
         case 'symbolRemove':
             return symbolRemoveScreen({ params });
         case 'option':
