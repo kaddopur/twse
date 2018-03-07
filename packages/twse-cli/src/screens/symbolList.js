@@ -7,7 +7,7 @@ export default async ({ symbols = [] }) => {
         {
             type: 'list',
             name: 'symbol',
-            message: 'Add / Remove your symbol',
+            message: 'Add / edit your symbol',
             pageSize: 50,
             choices: [
                 new prompt.Separator(),
