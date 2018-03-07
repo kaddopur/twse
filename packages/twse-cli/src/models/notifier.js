@@ -29,6 +29,30 @@ const notifier = {
         notifiers: {}
     },
     reducers: {
+        init(state, payload) {
+            const { code } = payload;
+
+            if (!state.notifiers[code]) {
+                state.notifiers = {
+                    ...state.notifiers,
+                    [code]: {
+                        cost: NaN,
+                        share: NaN,
+                        conditions: []
+                    }
+                };
+            }
+
+            return state;
+        },
+        remove(state, payload) {
+            const { code } = payload;
+            const { notifiers } = state;
+
+            delete notifiers[code];
+
+            return { ...state, notifiers };
+        },
         updateCondition(state, payload) {
             const { symbol, index, newCondition } = payload;
             const { conditions } = state.notifiers[symbol];

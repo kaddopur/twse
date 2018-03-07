@@ -9,8 +9,7 @@ export default async ({ params: { symbol, notifier }, notifiers = {} }) => {
         {
             type: 'confirm',
             name: 'remove',
-            message: `remove ${symbol} on ${notifier}`,
-            default: false
+            message: `remove ${symbol} on ${notifier}`
         }
     ];
 
