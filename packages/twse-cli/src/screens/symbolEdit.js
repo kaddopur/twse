@@ -24,6 +24,8 @@ export default async ({ params: { symbol } }) => {
     const { edit } = await prompt.ask(questions);
 
     switch (edit) {
+        case SYMBOLEDIT_SETUP:
+            return dispatch.screen.update({ name: 'symbolNotifier', params: { symbol } });
         case SYMBOLEDIT_REMOVE:
             return dispatch.screen.update({ name: 'symbolRemove', params: { symbol } });
         default:
