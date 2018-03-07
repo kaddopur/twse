@@ -33,6 +33,11 @@ const coloring = (string, condition, bgColor) => {
 const renderTickerTable = (stockInfo = []) => {
     clear();
 
+    if (!stockInfo) {
+        console.log('Server error');
+        return;
+    }
+
     const table = new Table({
         head: [
             '代號',

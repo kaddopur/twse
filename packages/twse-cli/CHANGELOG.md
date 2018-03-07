@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* StockInfo 可能為 `null` 之錯誤處理
+
 ### Security
 
 ## [1.4.1] - 2018-02-28
