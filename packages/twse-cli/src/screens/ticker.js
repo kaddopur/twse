@@ -5,6 +5,7 @@ import { getStockInfoStream } from 'twse';
 import numeral from 'numeral';
 import { dispatch } from '@rematch/core';
 import prompt from '../prompt';
+import nn from 'node-notifier';
 
 let invertColor = false;
 
@@ -131,16 +132,87 @@ const renderTickerTable = (stockInfo = []) => {
     console.log(table.toString());
 };
 
-export default async ({ symbols = [], options = {} }) => {
+const checkNotifiers = (stockInfo = [], notifiers = []) => {
+    stockInfo.forEach(stock => {
+        const { conditions = [], cost = null } = notifiers[stock.c] || {};
+
+        conditions.forEach(({ type, price, rate, firedAt }, index) => {
+            if (firedAt) {
+                // fired once per condition
+                return;
+            }
+
+            switch (type) {
+                case '>=':
+                    if (stock.z >= price) {
+                        fireNotification(
+                            stock,
+                            index,
+                            `上漲突破 ${numeral(price).format('0.00')}\n現在價位 ${numeral(stock.z).format('0.00')}`
+                        );
+                    }
+                    break;
+                case '<=':
+                    if (stock.z <= price) {
+                        fireNotification(
+                            stock,
+                            index,
+                            `下跌突破 ${numeral(price).format('0.00')}\n現在價位 ${numeral(stock.z).format('0.00')}`
+                        );
+                    }
+                    break;
+                case '%>=':
+                    if (cost !== null && stock.z >= cost * (1 + rate)) {
+                        fireNotification(
+                            stock,
+                            index,
+                            `上漲突破 ${numeral(rate).format('0.00%')}\n現在價位 ${numeral(stock.z).format('0.00')}`
+                        );
+                    }
+                    break;
+                case '%<=':
+                    if (cost !== null && stock.z <= cost * (1 - rate)) {
+                        fireNotification(
+                            stock,
+                            index,
+                            `下跌突破 ${numeral(rate).format('0.00%')}\n現在價位 ${numeral(stock.z).format('0.00')}`
+                        );
+                    }
+                    break;
+            }
+        });
+    });
+};
+
+const fireNotification = (stock, index, message) => {
+    nn.notify({
+        title: `${stock.c} ${stock.n}`,
+        subtitle: `${stock.d} ${stock.t}`,
+        message,
+        sound: true,
+        reply: true
+    });
+
+    dispatch.notifier.updateCondition({
+        symbol: stock.c,
+        index,
+        newCondition: {
+            firedAt: new Date()
+        }
+    });
+};
+
+export default async ({ symbols = [], options = {}, notifiers = [] }) => {
     if (symbols.length === 0) {
         return dispatch.screen.update({ name: 'menu' });
     }
-
     invertColor = options.coloring.value !== 'Taiwan';
+    dispatch.notifier.cleanUpFiredAt();
 
     let backPrompt = null;
     const subscription = getStockInfoStream(symbols.map(s => s.code)).subscribe(stockInfo => {
         renderTickerTable(stockInfo);
+        checkNotifiers(stockInfo, notifiers);
         console.log('');
 
         if (!backPrompt) {

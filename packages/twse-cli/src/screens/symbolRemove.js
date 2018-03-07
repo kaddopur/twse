@@ -13,9 +13,11 @@ export default async ({ params: { symbol } }) => {
     const { remove } = await prompt.ask(questions);
 
     if (remove) {
-        const symbolCode = symbol.split(' ')[0];
-        dispatch.symbol.remove(symbolCode);
+        const code = symbol.split(' ')[0];
+        dispatch.symbol.remove({ code });
+        dispatch.notifier.remove({ code });
+        dispatch.screen.update({ name: 'symbolList' });
+    } else {
+        dispatch.screen.update({ name: 'symbolEdit', params: { symbol } });
     }
-
-    dispatch.screen.update({ name: 'symbolList' });
 };

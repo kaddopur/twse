@@ -18,7 +18,7 @@ const symbol = {
         remove(state, payload) {
             return {
                 ...state,
-                symbols: state.symbols.filter(s => s.code !== payload)
+                symbols: state.symbols.filter(s => s.code !== payload.code)
             };
         }
     },

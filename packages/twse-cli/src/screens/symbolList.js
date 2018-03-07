@@ -7,7 +7,7 @@ export default async ({ symbols = [] }) => {
         {
             type: 'list',
             name: 'symbol',
-            message: 'Add / Remove your symbol',
+            message: 'Add / edit your symbol',
             pageSize: 50,
             choices: [
                 new prompt.Separator(),
@@ -27,6 +27,6 @@ export default async ({ symbols = [] }) => {
         case SYMBOLLIST_BACK:
             return dispatch.screen.update({ name: 'menu' });
         default:
-            return dispatch.screen.update({ name: 'symbolRemove', params: { symbol } });
+            return dispatch.screen.update({ name: 'symbolEdit', params: { symbol } });
     }
 };
