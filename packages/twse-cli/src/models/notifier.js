@@ -30,14 +30,31 @@ const notifier = {
             const { symbol, index, newCondition } = payload;
             const { conditions } = state.notifiers[symbol];
 
-            state.notifiers[symbol].conditions = [
-                ...conditions.slice(0, index),
-                {
-                    ...conditions[index],
-                    ...newCondition
-                },
-                ...conditions.slice(index + 1)
-            ];
+            state.notifiers[symbol] = {
+                ...state.notifiers[symbol],
+                conditions: [
+                    ...conditions.slice(0, index),
+                    {
+                        ...conditions[index],
+                        ...newCondition
+                    },
+                    ...conditions.slice(index + 1)
+                ]
+            };
+
+            return state;
+        },
+        removeCondition(state, payload) {
+            const { symbol, notifier } = payload;
+            const code = symbol.split(' ')[0];
+            const { conditions } = state.notifiers[code];
+
+            state.notifiers[code] = {
+                ...state.notifiers[code],
+                conditions: conditions.filter(entry => {
+                    return notifier !== `${entry.type} ${entry.price || entry.rate}`;
+                })
+            };
 
             return state;
         },

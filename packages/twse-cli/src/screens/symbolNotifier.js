@@ -3,6 +3,7 @@ import { dispatch } from '@rematch/core';
 import prompt from '../prompt';
 
 const SYMBOLNOTIFIER_ADD = 'Add notifier';
+const SYMBOLNOTIFIER_BACK = 'Back to symbol edit';
 
 function getChoices(conditions) {
     return conditions.map(condition => `${condition.type} ${condition.price || condition.rate}`);
@@ -23,7 +24,7 @@ export default async ({ params: { symbol }, notifiers = {} }) => {
                 new prompt.Separator(),
                 ...getChoices(conditions),
                 new prompt.Separator(),
-                'Back to symbol edit'
+                SYMBOLNOTIFIER_BACK
             ]
         }
     ];
@@ -32,7 +33,9 @@ export default async ({ params: { symbol }, notifiers = {} }) => {
 
     switch (notifier) {
         case SYMBOLNOTIFIER_ADD:
-        default:
+        case SYMBOLNOTIFIER_BACK:
             return dispatch.screen.update({ name: 'symbolEdit', params: { symbol } });
+        default:
+            return dispatch.screen.update({ name: 'symbolNotifierRemove', params: { symbol, notifier } });
     }
 };
