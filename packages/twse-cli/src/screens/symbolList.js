@@ -27,6 +27,6 @@ export default async ({ symbols = [] }) => {
         case SYMBOLLIST_BACK:
             return dispatch.screen.update({ name: 'menu' });
         default:
-            return dispatch.screen.update({ name: 'symbolRemove', params: { symbol } });
+            return dispatch.screen.update({ name: 'symbolEdit', params: { symbol } });
     }
 };

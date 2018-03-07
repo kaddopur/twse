@@ -6,6 +6,7 @@ import menuScreen from './screens/menu';
 import tickerScreen from './screens/ticker';
 import symbolListScreen from './screens/symbolList';
 import symbolAddScreen from './screens/symbolAdd';
+import symbolEditScreen from './screens/symbolEdit';
 import symbolRemoveScreen from './screens/symbolRemove';
 import optionScreen from './screens/option';
 import optionEditScreen from './screens/optionEdit';
@@ -43,6 +44,8 @@ function render() {
             return symbolListScreen({ symbols });
         case 'symbolAdd':
             return symbolAddScreen();
+        case 'symbolEdit':
+            return symbolEditScreen({ params, notifiers });
         case 'symbolRemove':
             return symbolRemoveScreen({ params });
         case 'option':
