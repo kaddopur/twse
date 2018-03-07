@@ -44,10 +44,43 @@ const notifier = {
 
             return state;
         },
+        addCondition(state, payload) {
+            const { symbol, type, value } = payload;
+            const code = symbol.split(' ')[0];
+
+            if (!state.notifiers[code]) {
+                state.notifiers = {
+                    ...state.notifiers,
+                    [code]: {}
+                };
+            }
+
+            const { conditions = [] } = state.notifiers[code];
+            const conditionExist = conditions.find(entry => notifier === `${entry.type} ${entry.price || entry.rate}`);
+
+            if (!conditionExist) {
+                state.notifiers[code] = {
+                    ...state.notifiers[code],
+                    conditions: [
+                        ...conditions,
+                        {
+                            type,
+                            [type === '>=' || type === '<=' ? 'price' : 'rate']: value
+                        }
+                    ]
+                };
+            }
+
+            return state;
+        },
         removeCondition(state, payload) {
             const { symbol, notifier } = payload;
             const code = symbol.split(' ')[0];
-            const { conditions } = state.notifiers[code];
+            const { conditions = [] } = state.notifiers[code] || {};
+
+            if (conditions.length === 0) {
+                return state;
+            }
 
             state.notifiers[code] = {
                 ...state.notifiers[code],
@@ -56,6 +89,9 @@ const notifier = {
                 })
             };
 
+            return state;
+        },
+        sortCondition(state, payload) {
             return state;
         },
         cleanUpFiredAt(state) {

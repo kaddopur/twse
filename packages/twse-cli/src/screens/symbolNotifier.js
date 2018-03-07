@@ -33,6 +33,7 @@ export default async ({ params: { symbol }, notifiers = {} }) => {
 
     switch (notifier) {
         case SYMBOLNOTIFIER_ADD:
+            return dispatch.screen.update({ name: 'symbolNotifierAdd', params: { symbol } });
         case SYMBOLNOTIFIER_BACK:
             return dispatch.screen.update({ name: 'symbolEdit', params: { symbol } });
         default:
