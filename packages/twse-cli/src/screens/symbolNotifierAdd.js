@@ -8,7 +8,7 @@ export default async ({ params: { symbol } }) => {
             type: 'list',
             name: 'type',
             message: `choose notifier type?`,
-            choices: ['>=', '<=', '%>=', '%<=']
+            choices: ['>=', '<=']
         },
         {
             type: 'input',

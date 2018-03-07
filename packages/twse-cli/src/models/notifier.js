@@ -36,8 +36,8 @@ const notifier = {
                 state.notifiers = {
                     ...state.notifiers,
                     [code]: {
-                        cost: NaN,
-                        share: NaN,
+                        cost: null,
+                        share: null,
                         conditions: []
                     }
                 };
