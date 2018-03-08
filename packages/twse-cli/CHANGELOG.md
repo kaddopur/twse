@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* 新增測試: `models/symbol`, `models/screen`
+
 ### Security
 
 ## [1.5.0] - 2018-03-08
