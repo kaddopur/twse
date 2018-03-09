@@ -15,11 +15,8 @@ export default async ({ options = {}, params = {} }) => {
     ];
     const { newValue } = await prompt.ask(questions);
     dispatch.option.updateOption({
-        [optionKey]: {
-            title,
-            value: newValue,
-            choices
-        }
+        optionKey,
+        value: newValue
     });
 
     dispatch.screen.update({ name: 'option' });
