@@ -11,20 +11,25 @@ const option = {
     },
     reducers: {
         updateOption(state, payload) {
+            const { optionKey, value } = payload;
+
             return {
                 ...state,
                 options: {
                     ...state.options,
-                    ...payload
+                    [optionKey]: {
+                        ...state.options[optionKey],
+                        value
+                    }
                 }
             };
         }
     },
     selectors: {
-        getOrder(state = {}) {
+        getOrder(state) {
             return state.order;
         },
-        getOptions(state = {}) {
+        getOptions(state) {
             return state.options;
         }
     }
