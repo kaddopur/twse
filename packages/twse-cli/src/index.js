@@ -34,7 +34,10 @@ function render() {
         return;
     }
     prevScreen = screen;
-    clear();
+
+    if (!process.env.DEBUG) {
+        clear();
+    }
 
     const { name, params } = screen;
 
