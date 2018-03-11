@@ -29,7 +29,7 @@ const notifier = {
         notifiers: {}
     },
     reducers: {
-        init(state, payload) {
+        add(state, payload) {
             const { code } = payload;
 
             if (!code) {

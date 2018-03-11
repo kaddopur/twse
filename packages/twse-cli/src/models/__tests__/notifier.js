@@ -9,17 +9,17 @@ describe('[TWSE-CLI][Model] Notifier', () => {
     });
 
     describe('reducers', () => {
-        describe('#init', () => {
-            const { reducers: { init } } = NotifierModel;
+        describe('#add', () => {
+            const { reducers: { add } } = NotifierModel;
 
             it('should be an Function', () => {
-                expect(init).toBeInstanceOf(Function);
+                expect(add).toBeInstanceOf(Function);
             });
 
             it('should create a new notifier with symbol code', () => {
                 const mockState = { notifiers: {} };
                 const mockPayload = { code: 'mockCode' };
-                const newState = init(mockState, mockPayload);
+                const newState = add(mockState, mockPayload);
 
                 expect(newState).not.toBe(mockState);
                 expect(newState).toHaveProperty('notifiers.mockCode', {
@@ -32,7 +32,7 @@ describe('[TWSE-CLI][Model] Notifier', () => {
             it('should be no-np without code in payload', () => {
                 const mockState = { notifiers: {} };
                 const mockPayload = {};
-                const newState = init(mockState, mockPayload);
+                const newState = add(mockState, mockPayload);
 
                 expect(newState).toBe(mockState);
                 expect(newState).toEqual(mockState);

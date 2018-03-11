@@ -34,7 +34,7 @@ export default async () => {
 
     if (name) {
         dispatch.symbol.add({ code, name });
-        dispatch.notifier.init({ code });
+        dispatch.notifier.add({ code });
     }
     dispatch.screen.update({ name: 'symbolList' });
 };
