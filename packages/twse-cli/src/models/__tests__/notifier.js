@@ -29,7 +29,7 @@ describe('[TWSE-CLI][Model] Notifier', () => {
                 });
             });
 
-            it('should be no-np without code in payload', () => {
+            it('should be no-op without code in payload', () => {
                 const mockState = { notifiers: {} };
                 const mockPayload = {};
                 const newState = add(mockState, mockPayload);
@@ -55,10 +55,117 @@ describe('[TWSE-CLI][Model] Notifier', () => {
                 expect(newState).not.toHaveProperty('mockCode');
             });
 
-            it('should be no-np without code in payload', () => {
+            it('should be no-op without code in payload', () => {
                 const mockState = { notifiers: { mockCode: 'mockNotifier' } };
                 const mockPayload = {};
                 const newState = remove(mockState, mockPayload);
+
+                expect(newState).toBe(mockState);
+                expect(newState).toEqual(mockState);
+            });
+        });
+
+        describe('#addCondition', () => {
+            const { reducers: { addCondition } } = NotifierModel;
+
+            it('should be an Function', () => {
+                expect(addCondition).toBeInstanceOf(Function);
+            });
+
+            it('should add a new condition to target notifier', () => {
+                const mockState = {
+                    notifiers: {
+                        mockCode: {
+                            cost: null,
+                            share: null,
+                            conditions: []
+                        }
+                    }
+                };
+                const mockPayload = {
+                    code: 'mockCode',
+                    condition: {
+                        type: 'mockType',
+                        value: 'mockValue'
+                    }
+                };
+                const newState = addCondition(mockState, mockPayload);
+
+                expect(newState).not.toBe(mockState);
+                expect(newState.notifiers).not.toBe(mockState.notifiers);
+                expect(newState.notifiers.mockCode).not.toBe(mockState.notifiers.mockCode);
+                expect(newState.notifiers.mockCode).toHaveProperty('conditions', [
+                    {
+                        type: 'mockType',
+                        value: 'mockValue'
+                    }
+                ]);
+            });
+
+            it('should be no-op if condition already exist', () => {
+                const mockState = {
+                    notifiers: {
+                        mockCode: {
+                            cost: null,
+                            share: null,
+                            conditions: [
+                                {
+                                    type: 'mockType',
+                                    value: 'mockValue'
+                                }
+                            ]
+                        }
+                    }
+                };
+                const mockPayload = {
+                    code: 'mockCode',
+                    condition: {
+                        type: 'mockType',
+                        value: 'mockValue'
+                    }
+                };
+                const newState = addCondition(mockState, mockPayload);
+
+                expect(newState).toBe(mockState);
+                expect(newState).toEqual(mockState);
+            });
+
+            it('should be no-op without code in payload', () => {
+                const mockState = {
+                    notifiers: {
+                        mockCode: {
+                            cost: null,
+                            share: null,
+                            conditions: []
+                        }
+                    }
+                };
+                const mockPayload = {
+                    condtion: {
+                        type: 'mockType',
+                        value: 'mockValue'
+                    }
+                };
+                const newState = addCondition(mockState, mockPayload);
+
+                expect(newState).toBe(mockState);
+                expect(newState).toEqual(mockState);
+            });
+
+            it('should be no-op without condition in payload', () => {
+                const mockState = {
+                    notifiers: {
+                        mockCode: {
+                            cost: null,
+                            share: null,
+                            conditions: []
+                        }
+                    }
+                };
+                const mockPayload = {
+                    code: 'mockCode'
+                };
+                const newState = addCondition(mockState, mockPayload);
 
                 expect(newState).toBe(mockState);
                 expect(newState).toEqual(mockState);
