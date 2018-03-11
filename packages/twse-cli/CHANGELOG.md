@@ -17,9 +17,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-* 新增測試: `models/symbol`, `models/screen`
-
 ### Security
+
+## [1.5.1] - 2018-03-11
+
+### Fixed
+
+* 新增測試: `models/symbol`, `models/screen`, `models/option`, `models/notifier`
 
 ## [1.5.0] - 2018-03-08
 
@@ -64,7 +68,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * 即時報價頁面完成。可以新增股票/顯示即時股價
 
-[unreleased]: https://github.com/kaddopur/twse/compare/v1.5.0...HEAD
+[unreleased]: https://github.com/kaddopur/twse/compare/v1.5.1...HEAD
+[1.5.1]: https://github.com/kaddopur/twse/compare/v1.5.0...v1.5.1
 [1.5.0]: https://github.com/kaddopur/twse/compare/v1.4.1...v1.5.0
 [1.4.1]: https://github.com/kaddopur/twse/compare/v1.3.1...v1.4.1
 [1.3.1]: https://github.com/kaddopur/twse/compare/v1.2.0...v1.3.1
