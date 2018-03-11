@@ -6,7 +6,7 @@ const SYMBOLNOTIFIER_ADD = 'Add notifier';
 const SYMBOLNOTIFIER_BACK = 'Back to symbol edit';
 
 function getChoices(conditions) {
-    return conditions.map(condition => `${condition.type} ${condition.price || condition.rate}`);
+    return conditions.map(condition => `${condition.type} ${condition.value}`);
 }
 
 export default async ({ params: { symbol }, notifiers = {} }) => {

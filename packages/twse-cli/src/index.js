@@ -45,7 +45,7 @@ function render() {
         case 'menu':
             return menuScreen();
         case 'ticker':
-            return tickerScreen({ symbols, options, notifiers });
+            return tickerScreen({ symbols, options });
         case 'symbolList':
             return symbolListScreen({ symbols });
         case 'symbolAdd':

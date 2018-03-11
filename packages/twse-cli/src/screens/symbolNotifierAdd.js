@@ -20,7 +20,15 @@ export default async ({ params: { symbol } }) => {
     const { type, value } = await prompt.ask(typeQuestion);
 
     if (value) {
-        dispatch.notifier.addCondition({ symbol, type, value });
+        const code = symbol.split(' ')[0];
+        dispatch.notifier.addCondition({
+            code,
+            condition: {
+                type,
+                value
+            }
+        });
+        dispatch.notifier.sortCondition({ code });
     }
 
     return dispatch.screen.update({ name: 'symbolNotifier', params: { symbol } });

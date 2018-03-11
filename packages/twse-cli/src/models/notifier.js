@@ -7,19 +7,19 @@ const notifier = {
     //             conditions: [
     //                 {
     //                     type: '>=',
-    //                     price: 19.16
+    //                     value: 19.16
     //                 },
     //                 {
     //                     type: '<=',
-    //                     price: 18.5
+    //                     value: 18.5
     //                 },
     //                 {
     //                     type: '%>=',
-    //                     rate: 0.05
+    //                     value: 0.05
     //                 },
     //                 {
     //                     type: '%<=',
-    //                     rate: 0.05
+    //                     value: 0.05
     //                 }
     //             ]
     //         }
@@ -29,141 +29,174 @@ const notifier = {
         notifiers: {}
     },
     reducers: {
-        init(state, payload) {
+        add(state, payload) {
             const { code } = payload;
 
-            if (!state.notifiers[code]) {
-                state.notifiers = {
+            if (!code) {
+                return state;
+            }
+
+            return {
+                ...state,
+                notifiers: {
                     ...state.notifiers,
                     [code]: {
                         cost: null,
                         share: null,
                         conditions: []
                     }
-                };
-            }
-
-            return state;
+                }
+            };
         },
         remove(state, payload) {
             const { code } = payload;
             const { notifiers } = state;
 
+            if (!code) {
+                return state;
+            }
+
             delete notifiers[code];
 
             return { ...state, notifiers };
         },
-        updateCondition(state, payload) {
-            const { symbol, index, newCondition } = payload;
-            const { conditions } = state.notifiers[symbol];
-
-            state.notifiers[symbol] = {
-                ...state.notifiers[symbol],
-                conditions: [
-                    ...conditions.slice(0, index),
-                    {
-                        ...conditions[index],
-                        ...newCondition
-                    },
-                    ...conditions.slice(index + 1)
-                ]
-            };
-
-            return this['notifier/sortCondition'](state, { code: symbol });
-        },
         addCondition(state, payload) {
-            const { symbol, type, value } = payload;
-            const code = symbol.split(' ')[0];
+            const { code, condition: { type, value } = {} } = payload;
 
-            if (!state.notifiers[code]) {
-                state.notifiers = {
-                    ...state.notifiers,
-                    [code]: {}
-                };
-            }
-
-            const { conditions = [] } = state.notifiers[code];
-            const conditionExist = conditions.find(entry => notifier === `${entry.type} ${entry.price || entry.rate}`);
-
-            if (!conditionExist) {
-                state.notifiers[code] = {
-                    ...state.notifiers[code],
-                    conditions: [
-                        ...conditions,
-                        {
-                            type,
-                            [type === '>=' || type === '<=' ? 'price' : 'rate']: parseFloat(value)
-                        }
-                    ]
-                };
-            }
-
-            return this['notifier/sortCondition'](state, { code });
-        },
-        removeCondition(state, payload) {
-            const { symbol, notifier } = payload;
-            const code = symbol.split(' ')[0];
-            const { conditions = [] } = state.notifiers[code] || {};
-
-            if (conditions.length === 0) {
+            if (!code || !type || !value) {
                 return state;
             }
 
-            state.notifiers[code] = {
-                ...state.notifiers[code],
-                conditions: conditions.filter(entry => {
-                    return notifier !== `${entry.type} ${entry.price || entry.rate}`;
-                })
-            };
+            const { notifiers = {}, notifiers: { [code]: { conditions = [] } = {} } = {} } = state;
+            const parsedValue = parseFloat(value);
+            const conditionExist = conditions.find(entry => {
+                return entry.type === type && entry.value === parsedValue;
+            });
 
-            return state;
+            if (conditionExist) {
+                return state;
+            }
+
+            return {
+                ...state,
+                notifiers: {
+                    ...notifiers,
+                    [code]: {
+                        ...(notifiers[code] || {}),
+                        conditions: [...conditions, { type, value: parsedValue }]
+                    }
+                }
+            };
+        },
+        updateCondition(state, payload) {
+            const { code, index, condition } = payload;
+
+            if (!code || !Number.isInteger(index)) {
+                return state;
+            }
+
+            const { notifiers = {}, notifiers: { [code]: { conditions = [] } = {} } = {} } = state;
+
+            if (!notifiers[code]) {
+                return state;
+            }
+
+            return {
+                ...state,
+                notifiers: {
+                    ...notifiers,
+                    [code]: {
+                        ...(notifiers[code] || {}),
+                        conditions: [
+                            ...conditions.slice(0, index),
+                            {
+                                ...conditions[index],
+                                ...condition
+                            },
+                            ...conditions.slice(index + 1)
+                        ]
+                    }
+                }
+            };
+        },
+        removeCondition(state, payload) {
+            const { code, notifier: notifierOption } = payload;
+
+            if (!code || !notifierOption) {
+                return state;
+            }
+
+            const { notifiers = {}, notifiers: { [code]: { conditions = [] } = {} } = {} } = state;
+
+            if (!notifiers[code]) {
+                return state;
+            }
+
+            return {
+                ...state,
+                notifiers: {
+                    ...notifiers,
+                    [code]: {
+                        ...(notifiers[code] || {}),
+                        conditions: conditions.filter(entry => notifierOption !== `${entry.type} ${entry.value}`)
+                    }
+                }
+            };
         },
         sortCondition(state, payload) {
             const order = ['>=', '<=', '%>=', '%<='];
             const { code } = payload;
-            const { conditions = [] } = state.notifiers[code] || {};
 
-            state.notifiers[code] = {
-                ...state.notifiers[code],
-                conditions: [
-                    ...conditions.sort((lhs, rhs) => {
-                        if (lhs.type === rhs.type) {
-                            switch (lhs.type) {
-                                case '>=':
-                                case '<=':
-                                    return rhs.price - lhs.price;
-                                case '%>=':
-                                    return rhs.rate - lhs.rate;
-                                case '%<=':
-                                    return lhs.rate - rhs.rate;
-                                default:
-                                    return 0;
-                            }
-                        }
+            if (!code) {
+                return state;
+            }
 
-                        return order.indexOf(lhs.type) - order.indexOf(rhs.type);
-                    })
-                ]
+            const { notifiers, notifiers: { [code]: { conditions = [] } = {} } = {} } = state;
+
+            return {
+                ...state,
+                notifiers: {
+                    ...notifiers,
+                    [code]: {
+                        ...(notifiers[code] || {}),
+                        conditions: [
+                            ...conditions.filter(entry => order.indexOf(entry.type) !== -1).sort((lhs, rhs) => {
+                                if (lhs.type === rhs.type) {
+                                    switch (lhs.type) {
+                                        case '>=':
+                                        case '<=':
+                                        case '%>=':
+                                            return rhs.value - lhs.value;
+                                        case '%<=':
+                                            return lhs.value - rhs.value;
+                                    }
+                                }
+
+                                return order.indexOf(lhs.type) - order.indexOf(rhs.type);
+                            })
+                        ]
+                    }
+                }
             };
-
-            return state;
         },
         cleanUpFiredAt(state) {
-            Object.keys(state.notifiers).forEach(symbol => {
-                const { conditions = [] } = state.notifiers[symbol];
+            const { notifiers = {} } = state;
+            const newNotifiers = {};
 
-                state.notifiers[symbol] = {
-                    ...state.notifiers[symbol],
+            Object.keys(notifiers).forEach(code => {
+                const { conditions = [] } = notifiers[code];
+
+                newNotifiers[code] = {
+                    ...notifiers[code],
                     conditions: conditions.map(entry => {
                         const newEntry = { ...entry };
-
                         delete newEntry.firedAt;
                         return newEntry;
                     })
                 };
             });
 
-            return state;
+            return { ...state, notifiers: newNotifiers };
         }
     },
     selectors: {

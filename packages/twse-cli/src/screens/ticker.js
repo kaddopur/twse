@@ -3,7 +3,8 @@ import chalk from 'chalk';
 import Table from 'cli-table2';
 import { getStockInfoStream } from 'twse';
 import numeral from 'numeral';
-import { dispatch } from '@rematch/core';
+import { getState, dispatch } from '@rematch/core';
+import { select } from '@rematch/select';
 import prompt from '../prompt';
 import nn from 'node-notifier';
 
@@ -32,7 +33,9 @@ const coloring = (string, condition, bgColor) => {
 };
 
 const renderTickerTable = (stockInfo = []) => {
-    clear();
+    if (!process.env.DEBUG) {
+        clear();
+    }
 
     if (!stockInfo) {
         console.log('Server error');
@@ -136,7 +139,7 @@ const checkNotifiers = (stockInfo = [], notifiers = []) => {
     stockInfo.forEach(stock => {
         const { conditions = [], cost = null } = notifiers[stock.c] || {};
 
-        conditions.forEach(({ type, price, rate, firedAt }, index) => {
+        conditions.forEach(({ type, value, firedAt }, index) => {
             if (firedAt) {
                 // fired once per condition
                 return;
@@ -144,38 +147,38 @@ const checkNotifiers = (stockInfo = [], notifiers = []) => {
 
             switch (type) {
                 case '>=':
-                    if (stock.z >= price) {
+                    if (stock.z >= value) {
                         fireNotification(
                             stock,
                             index,
-                            `上漲突破 ${numeral(price).format('0.00')}\n現在價位 ${numeral(stock.z).format('0.00')}`
+                            `上漲突破 ${numeral(value).format('0.00')}\n現在價位 ${numeral(stock.z).format('0.00')}`
                         );
                     }
                     break;
                 case '<=':
-                    if (stock.z <= price) {
+                    if (stock.z <= value) {
                         fireNotification(
                             stock,
                             index,
-                            `下跌突破 ${numeral(price).format('0.00')}\n現在價位 ${numeral(stock.z).format('0.00')}`
+                            `下跌突破 ${numeral(value).format('0.00')}\n現在價位 ${numeral(stock.z).format('0.00')}`
                         );
                     }
                     break;
                 case '%>=':
-                    if (cost !== null && stock.z >= cost * (1 + rate)) {
+                    if (cost !== null && stock.z >= cost * (1 + value)) {
                         fireNotification(
                             stock,
                             index,
-                            `上漲突破 ${numeral(rate).format('0.00%')}\n現在價位 ${numeral(stock.z).format('0.00')}`
+                            `上漲突破 ${numeral(value).format('0.00%')}\n現在價位 ${numeral(stock.z).format('0.00')}`
                         );
                     }
                     break;
                 case '%<=':
-                    if (cost !== null && stock.z <= cost * (1 - rate)) {
+                    if (cost !== null && stock.z <= cost * (1 - value)) {
                         fireNotification(
                             stock,
                             index,
-                            `下跌突破 ${numeral(rate).format('0.00%')}\n現在價位 ${numeral(stock.z).format('0.00')}`
+                            `下跌突破 ${numeral(value).format('0.00%')}\n現在價位 ${numeral(stock.z).format('0.00')}`
                         );
                     }
                     break;
@@ -194,15 +197,15 @@ const fireNotification = (stock, index, message) => {
     });
 
     dispatch.notifier.updateCondition({
-        symbol: stock.c,
+        code: stock.c,
         index,
-        newCondition: {
+        condition: {
             firedAt: new Date()
         }
     });
 };
 
-export default async ({ symbols = [], options = {}, notifiers = [] }) => {
+export default async ({ symbols = [], options = {} }) => {
     if (symbols.length === 0) {
         return dispatch.screen.update({ name: 'menu' });
     }
@@ -212,7 +215,7 @@ export default async ({ symbols = [], options = {}, notifiers = [] }) => {
     let backPrompt = null;
     const subscription = getStockInfoStream(symbols.map(s => s.code)).subscribe(stockInfo => {
         renderTickerTable(stockInfo);
-        checkNotifiers(stockInfo, notifiers);
+        checkNotifiers(stockInfo, select.notifier.getNotifiers(getState()));
         console.log('');
 
         if (!backPrompt) {
