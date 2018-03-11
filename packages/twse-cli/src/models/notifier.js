@@ -89,22 +89,35 @@ const notifier = {
             };
         },
         updateCondition(state, payload) {
-            const { symbol, index, newCondition } = payload;
-            const { conditions } = state.notifiers[symbol];
+            const { code, index, condition } = payload;
 
-            state.notifiers[symbol] = {
-                ...state.notifiers[symbol],
-                conditions: [
-                    ...conditions.slice(0, index),
-                    {
-                        ...conditions[index],
-                        ...newCondition
-                    },
-                    ...conditions.slice(index + 1)
-                ]
+            if (!code || !Number.isInteger(index)) {
+                return state;
+            }
+
+            const { notifiers = {}, notifiers: { [code]: { conditions = [] } = {} } = {} } = state;
+
+            if (!notifiers[code]) {
+                return state;
+            }
+
+            return {
+                ...state,
+                notifiers: {
+                    ...notifiers,
+                    [code]: {
+                        ...(notifiers[code] || {}),
+                        conditions: [
+                            ...conditions.slice(0, index),
+                            {
+                                ...conditions[index],
+                                ...condition
+                            },
+                            ...conditions.slice(index + 1)
+                        ]
+                    }
+                }
             };
-
-            return this['notifier/sortCondition'](state, { code: symbol });
         },
         removeCondition(state, payload) {
             const { symbol, notifier } = payload;

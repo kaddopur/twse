@@ -141,7 +141,7 @@ describe('[TWSE-CLI][Model] Notifier', () => {
                     }
                 };
                 const mockPayload = {
-                    condtion: {
+                    condition: {
                         type: 'mockType',
                         value: 'mockValue'
                     }
@@ -171,6 +171,135 @@ describe('[TWSE-CLI][Model] Notifier', () => {
                 expect(newState).toEqual(mockState);
             });
         });
+
+        describe('#updateCondition', () => {
+            const { reducers: { updateCondition } } = NotifierModel;
+
+            it('should be an Function', () => {
+                expect(updateCondition).toBeInstanceOf(Function);
+            });
+
+            it('should update target code', () => {
+                const mockState = {
+                    notifiers: {
+                        mockCode: {
+                            cost: null,
+                            share: null,
+                            conditions: [
+                                {
+                                    type: 'mockType',
+                                    value: 1.23
+                                }
+                            ]
+                        }
+                    }
+                };
+                const mockPayload = {
+                    code: 'mockCode',
+                    index: 0,
+                    condition: {
+                        firedAt: 'mockFiredAt'
+                    }
+                };
+                const newState = updateCondition(mockState, mockPayload);
+
+                expect(newState).not.toBe(mockState);
+                expect(newState.notifiers).not.toBe(mockState.notifiers);
+                expect(newState.notifiers.mockCode).not.toBe(mockState.notifiers.mockCode);
+                expect(newState.notifiers.mockCode.conditions).not.toBe(mockState.notifiers.mockCode.conditions);
+                expect(newState.notifiers.mockCode.conditions[0]).not.toBe(mockState.notifiers.mockCode.conditions[0]);
+                expect(newState.notifiers.mockCode.conditions[0]).toEqual({
+                    type: 'mockType',
+                    value: 1.23,
+                    firedAt: 'mockFiredAt'
+                });
+            });
+
+            it('should be no-op without code in payload', () => {
+                const mockState = {
+                    notifiers: {
+                        mockCode: {
+                            cost: null,
+                            share: null,
+                            conditions: [
+                                {
+                                    type: 'mockType',
+                                    value: 1.23
+                                }
+                            ]
+                        }
+                    }
+                };
+                const mockPayload = {
+                    index: 0,
+                    condition: {
+                        firedAt: 'mockFiredAt'
+                    }
+                };
+                const newState = updateCondition(mockState, mockPayload);
+
+                expect(newState).toBe(mockState);
+                expect(newState).toEqual(mockState);
+            });
+
+            it('should be no-op without valid index in payload', () => {
+                const mockState = {
+                    notifiers: {
+                        mockCode: {
+                            cost: null,
+                            share: null,
+                            conditions: [
+                                {
+                                    type: 'mockType',
+                                    value: 1.23
+                                }
+                            ]
+                        }
+                    }
+                };
+                const mockPayload = {
+                    code: 'mockCode',
+                    condition: {
+                        firedAt: 'mockFiredAt'
+                    }
+                };
+                const newState = updateCondition(mockState, mockPayload);
+
+                expect(newState).toBe(mockState);
+                expect(newState).toEqual(mockState);
+            });
+
+            it('should be no-op if target code is not found', () => {
+                const mockState = {
+                    notifiers: {
+                        mockCode: {
+                            cost: null,
+                            share: null,
+                            conditions: [
+                                {
+                                    type: 'mockType',
+                                    value: 1.23
+                                }
+                            ]
+                        }
+                    }
+                };
+                const mockPayload = {
+                    code: 'fooCode',
+                    index: 0,
+                    condition: {
+                        firedAt: 'mockFiredAt'
+                    }
+                };
+                const newState = updateCondition(mockState, mockPayload);
+
+                expect(newState).toBe(mockState);
+                expect(newState).toEqual(mockState);
+            });
+        });
+        describe('#removeCondition', () => {});
+        describe('#sortCondition', () => {});
+        describe('#cleanUpFiredAt', () => {});
     });
 
     describe('selectors', () => {
