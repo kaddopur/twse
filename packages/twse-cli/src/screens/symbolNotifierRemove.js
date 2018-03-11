@@ -16,7 +16,8 @@ export default async ({ params: { symbol, notifier }, notifiers = {} }) => {
     const { remove } = await prompt.ask(questions);
 
     if (remove) {
-        dispatch.notifier.removeCondition({ symbol, notifier });
+        const code = symbol.split(' ')[0];
+        dispatch.notifier.removeCondition({ code, notifier });
     }
     return dispatch.screen.update({ name: 'symbolNotifier', params: { symbol } });
 };

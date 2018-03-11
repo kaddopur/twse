@@ -120,22 +120,28 @@ const notifier = {
             };
         },
         removeCondition(state, payload) {
-            const { symbol, notifier } = payload;
-            const code = symbol.split(' ')[0];
-            const { conditions = [] } = state.notifiers[code] || {};
+            const { code, notifier: notifierOption } = payload;
 
-            if (conditions.length === 0) {
+            if (!code || !notifierOption) {
                 return state;
             }
 
-            state.notifiers[code] = {
-                ...state.notifiers[code],
-                conditions: conditions.filter(entry => {
-                    return notifier !== `${entry.type} ${entry.value || entry.value}`;
-                })
-            };
+            const { notifiers = {}, notifiers: { [code]: { conditions = [] } = {} } = {} } = state;
 
-            return state;
+            if (!notifiers[code]) {
+                return state;
+            }
+
+            return {
+                ...state,
+                notifiers: {
+                    ...notifiers,
+                    [code]: {
+                        ...(notifiers[code] || {}),
+                        conditions: conditions.filter(entry => notifierOption !== `${entry.type} ${entry.value}`)
+                    }
+                }
+            };
         },
         sortCondition(state, payload) {
             const order = ['>=', '<=', '%>=', '%<='];
