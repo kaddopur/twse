@@ -553,7 +553,77 @@ describe('[TWSE-CLI][Model] Notifier', () => {
             });
         });
 
-        xdescribe('#cleanUpFiredAt', () => {});
+        describe('#cleanUpFiredAt', () => {
+            const { reducers: { cleanUpFiredAt } } = NotifierModel;
+
+            it('should be an Function', () => {
+                expect(cleanUpFiredAt).toBeInstanceOf(Function);
+            });
+
+            it('should clean up firedAt for all conditions', () => {
+                const mockState = {
+                    notifiers: {
+                        fooCode: {
+                            cost: null,
+                            share: null,
+                            conditions: [
+                                {
+                                    type: 'mockType1',
+                                    value: 1.23,
+                                    firedAt: 'fooFiredAt1'
+                                },
+                                {
+                                    type: 'mockType2',
+                                    value: 1.23,
+                                    firedAt: 'fooFiredAt2'
+                                }
+                            ]
+                        },
+                        barCode: {
+                            cost: null,
+                            share: null,
+                            conditions: [
+                                {
+                                    type: 'mockType',
+                                    value: 1.23,
+                                    firedAt: 'barFiredAt'
+                                }
+                            ]
+                        }
+                    }
+                };
+                const newState = cleanUpFiredAt(mockState);
+
+                expect(newState).not.toBe(mockState);
+                expect(newState.notifiers).not.toBe(mockState.notifiers);
+                expect(newState.notifiers).toEqual({
+                    fooCode: {
+                        cost: null,
+                        share: null,
+                        conditions: [
+                            {
+                                type: 'mockType1',
+                                value: 1.23
+                            },
+                            {
+                                type: 'mockType2',
+                                value: 1.23
+                            }
+                        ]
+                    },
+                    barCode: {
+                        cost: null,
+                        share: null,
+                        conditions: [
+                            {
+                                type: 'mockType',
+                                value: 1.23
+                            }
+                        ]
+                    }
+                });
+            });
+        });
     });
 
     describe('selectors', () => {

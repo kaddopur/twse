@@ -180,21 +180,23 @@ const notifier = {
             };
         },
         cleanUpFiredAt(state) {
-            Object.keys(state.notifiers).forEach(symbol => {
-                const { conditions = [] } = state.notifiers[symbol];
+            const { notifiers = {} } = state;
+            const newNotifiers = {};
 
-                state.notifiers[symbol] = {
-                    ...state.notifiers[symbol],
+            Object.keys(notifiers).forEach(code => {
+                const { conditions = [] } = notifiers[code];
+
+                newNotifiers[code] = {
+                    ...notifiers[code],
                     conditions: conditions.map(entry => {
                         const newEntry = { ...entry };
-
                         delete newEntry.firedAt;
                         return newEntry;
                     })
                 };
             });
 
-            return state;
+            return { ...state, notifiers: newNotifiers };
         }
     },
     selectors: {
