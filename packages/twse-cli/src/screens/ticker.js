@@ -3,7 +3,8 @@ import chalk from 'chalk';
 import Table from 'cli-table2';
 import { getStockInfoStream } from 'twse';
 import numeral from 'numeral';
-import { dispatch } from '@rematch/core';
+import { getState, dispatch } from '@rematch/core';
+import { select } from '@rematch/select';
 import prompt from '../prompt';
 import nn from 'node-notifier';
 
@@ -32,7 +33,9 @@ const coloring = (string, condition, bgColor) => {
 };
 
 const renderTickerTable = (stockInfo = []) => {
-    clear();
+    if (!process.env.DEBUG) {
+        clear();
+    }
 
     if (!stockInfo) {
         console.log('Server error');
@@ -194,15 +197,15 @@ const fireNotification = (stock, index, message) => {
     });
 
     dispatch.notifier.updateCondition({
-        symbol: stock.c,
+        code: stock.c,
         index,
-        newCondition: {
+        condition: {
             firedAt: new Date()
         }
     });
 };
 
-export default async ({ symbols = [], options = {}, notifiers = [] }) => {
+export default async ({ symbols = [], options = {} }) => {
     if (symbols.length === 0) {
         return dispatch.screen.update({ name: 'menu' });
     }
@@ -212,7 +215,7 @@ export default async ({ symbols = [], options = {}, notifiers = [] }) => {
     let backPrompt = null;
     const subscription = getStockInfoStream(symbols.map(s => s.code)).subscribe(stockInfo => {
         renderTickerTable(stockInfo);
-        checkNotifiers(stockInfo, notifiers);
+        checkNotifiers(stockInfo, select.notifier.getNotifiers(getState()));
         console.log('');
 
         if (!backPrompt) {
