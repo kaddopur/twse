@@ -7,19 +7,19 @@ const notifier = {
     //             conditions: [
     //                 {
     //                     type: '>=',
-    //                     price: 19.16
+    //                     value: 19.16
     //                 },
     //                 {
     //                     type: '<=',
-    //                     price: 18.5
+    //                     value: 18.5
     //                 },
     //                 {
     //                     type: '%>=',
-    //                     rate: 0.05
+    //                     value: 0.05
     //                 },
     //                 {
     //                     type: '%<=',
-    //                     rate: 0.05
+    //                     value: 0.05
     //                 }
     //             ]
     //         }
@@ -61,15 +61,16 @@ const notifier = {
             return { ...state, notifiers };
         },
         addCondition(state, payload) {
-            const { code, condition } = payload;
+            const { code, condition: { type, value } = {} } = payload;
 
-            if (!code || !condition) {
+            if (!code || !type || !value) {
                 return state;
             }
 
             const { notifiers, notifiers: { [code]: { conditions = [] } = {} } = {} } = state;
+            const parsedValue = parseFloat(value);
             const conditionExist = conditions.find(entry => {
-                return entry.type === condition.type && entry.value === condition.value;
+                return entry.type === type && entry.value === parsedValue;
             });
 
             if (conditionExist) {
@@ -82,7 +83,7 @@ const notifier = {
                     ...notifiers,
                     [code]: {
                         ...(notifiers[code] || {}),
-                        conditions: [...conditions, condition]
+                        conditions: [...conditions, { type, value: parsedValue }]
                     }
                 }
             };
@@ -117,7 +118,7 @@ const notifier = {
             state.notifiers[code] = {
                 ...state.notifiers[code],
                 conditions: conditions.filter(entry => {
-                    return notifier !== `${entry.type} ${entry.price || entry.rate}`;
+                    return notifier !== `${entry.type} ${entry.value || entry.value}`;
                 })
             };
 
@@ -136,11 +137,11 @@ const notifier = {
                             switch (lhs.type) {
                                 case '>=':
                                 case '<=':
-                                    return rhs.price - lhs.price;
+                                    return rhs.value - lhs.value;
                                 case '%>=':
-                                    return rhs.rate - lhs.rate;
+                                    return rhs.value - lhs.value;
                                 case '%<=':
-                                    return lhs.rate - rhs.rate;
+                                    return lhs.value - rhs.value;
                                 default:
                                     return 0;
                             }

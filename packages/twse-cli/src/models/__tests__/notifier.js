@@ -86,7 +86,7 @@ describe('[TWSE-CLI][Model] Notifier', () => {
                     code: 'mockCode',
                     condition: {
                         type: 'mockType',
-                        value: 'mockValue'
+                        value: '1.23'
                     }
                 };
                 const newState = addCondition(mockState, mockPayload);
@@ -97,7 +97,7 @@ describe('[TWSE-CLI][Model] Notifier', () => {
                 expect(newState.notifiers.mockCode).toHaveProperty('conditions', [
                     {
                         type: 'mockType',
-                        value: 'mockValue'
+                        value: 1.23
                     }
                 ]);
             });
@@ -111,7 +111,7 @@ describe('[TWSE-CLI][Model] Notifier', () => {
                             conditions: [
                                 {
                                     type: 'mockType',
-                                    value: 'mockValue'
+                                    value: 1.23
                                 }
                             ]
                         }
@@ -121,7 +121,7 @@ describe('[TWSE-CLI][Model] Notifier', () => {
                     code: 'mockCode',
                     condition: {
                         type: 'mockType',
-                        value: 'mockValue'
+                        value: '1.23'
                     }
                 };
                 const newState = addCondition(mockState, mockPayload);

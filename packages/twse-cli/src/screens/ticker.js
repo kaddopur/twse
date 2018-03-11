@@ -136,7 +136,7 @@ const checkNotifiers = (stockInfo = [], notifiers = []) => {
     stockInfo.forEach(stock => {
         const { conditions = [], cost = null } = notifiers[stock.c] || {};
 
-        conditions.forEach(({ type, price, rate, firedAt }, index) => {
+        conditions.forEach(({ type, value, firedAt }, index) => {
             if (firedAt) {
                 // fired once per condition
                 return;
@@ -144,38 +144,38 @@ const checkNotifiers = (stockInfo = [], notifiers = []) => {
 
             switch (type) {
                 case '>=':
-                    if (stock.z >= price) {
+                    if (stock.z >= value) {
                         fireNotification(
                             stock,
                             index,
-                            `上漲突破 ${numeral(price).format('0.00')}\n現在價位 ${numeral(stock.z).format('0.00')}`
+                            `上漲突破 ${numeral(value).format('0.00')}\n現在價位 ${numeral(stock.z).format('0.00')}`
                         );
                     }
                     break;
                 case '<=':
-                    if (stock.z <= price) {
+                    if (stock.z <= value) {
                         fireNotification(
                             stock,
                             index,
-                            `下跌突破 ${numeral(price).format('0.00')}\n現在價位 ${numeral(stock.z).format('0.00')}`
+                            `下跌突破 ${numeral(value).format('0.00')}\n現在價位 ${numeral(stock.z).format('0.00')}`
                         );
                     }
                     break;
                 case '%>=':
-                    if (cost !== null && stock.z >= cost * (1 + rate)) {
+                    if (cost !== null && stock.z >= cost * (1 + value)) {
                         fireNotification(
                             stock,
                             index,
-                            `上漲突破 ${numeral(rate).format('0.00%')}\n現在價位 ${numeral(stock.z).format('0.00')}`
+                            `上漲突破 ${numeral(value).format('0.00%')}\n現在價位 ${numeral(stock.z).format('0.00')}`
                         );
                     }
                     break;
                 case '%<=':
-                    if (cost !== null && stock.z <= cost * (1 - rate)) {
+                    if (cost !== null && stock.z <= cost * (1 - value)) {
                         fireNotification(
                             stock,
                             index,
-                            `下跌突破 ${numeral(rate).format('0.00%')}\n現在價位 ${numeral(stock.z).format('0.00')}`
+                            `下跌突破 ${numeral(value).format('0.00%')}\n現在價位 ${numeral(stock.z).format('0.00')}`
                         );
                     }
                     break;
