@@ -32,18 +32,21 @@ const notifier = {
         init(state, payload) {
             const { code } = payload;
 
-            if (!state.notifiers[code]) {
-                state.notifiers = {
+            if (!code) {
+                return state;
+            }
+
+            return {
+                ...state,
+                notifiers: {
                     ...state.notifiers,
                     [code]: {
                         cost: null,
                         share: null,
                         conditions: []
                     }
-                };
-            }
-
-            return state;
+                }
+            };
         },
         remove(state, payload) {
             const { code } = payload;
