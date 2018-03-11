@@ -173,20 +173,19 @@ describe('[TWSE-CLI][Model] Notifier', () => {
         });
     });
 
-    xdescribe('selectors', () => {
-        describe('#getScreen', () => {
-            const { selectors: { getScreen } } = NotifierModel;
+    describe('selectors', () => {
+        describe('#getNotifiers', () => {
+            const { selectors: { getNotifiers } } = NotifierModel;
 
             it('should be an Function', () => {
-                expect(getScreen).toBeInstanceOf(Function);
+                expect(getNotifiers).toBeInstanceOf(Function);
             });
 
-            it('should return whole state as screen', () => {
-                const mockState = {
-                    name: 'menu',
-                    foo: 'bar'
-                };
-                expect(getScreen(mockState)).toBe(mockState);
+            it('should return notifiers', () => {
+                const mockNotifiers = { mockCode: 'mockNotifier' };
+                const mockState = { notifiers: mockNotifiers };
+
+                expect(getNotifiers(mockState)).toBe(mockNotifiers);
             });
         });
     });
