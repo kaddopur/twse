@@ -407,7 +407,151 @@ describe('[TWSE-CLI][Model] Notifier', () => {
             });
         });
 
-        xdescribe('#sortCondition', () => {});
+        describe('#sortCondition', () => {
+            const { reducers: { sortCondition } } = NotifierModel;
+
+            it('should be an Function', () => {
+                expect(sortCondition).toBeInstanceOf(Function);
+            });
+
+            it('should sort target code condition', () => {
+                const mockState = {
+                    notifiers: {
+                        mockCode: {
+                            cost: null,
+                            share: null,
+                            conditions: [
+                                {
+                                    type: '>=',
+                                    value: 50
+                                },
+                                {
+                                    type: '<=',
+                                    value: 20
+                                },
+                                {
+                                    type: '%>=',
+                                    value: 0.05
+                                },
+                                {
+                                    type: '%>=',
+                                    value: 0.1
+                                },
+                                {
+                                    type: '%<=',
+                                    value: 0.1
+                                },
+                                {
+                                    type: '%<=',
+                                    value: 0.05
+                                },
+
+                                {
+                                    type: '<=',
+                                    value: 40
+                                },
+                                {
+                                    type: '>=',
+                                    value: 100
+                                }
+                            ]
+                        }
+                    }
+                };
+                const mockPayload = {
+                    code: 'mockCode'
+                };
+                const newState = sortCondition(mockState, mockPayload);
+
+                expect(newState).not.toBe(mockState);
+                expect(newState.notifiers).not.toBe(mockState.notifiers);
+                expect(newState.notifiers.mockCode).not.toBe(mockState.notifiers.mockCode);
+                expect(newState.notifiers.mockCode.conditions).not.toBe(mockState.notifiers.mockCode.conditions);
+                expect(newState.notifiers.mockCode.conditions).toEqual([
+                    {
+                        type: '>=',
+                        value: 100
+                    },
+                    {
+                        type: '>=',
+                        value: 50
+                    },
+                    {
+                        type: '<=',
+                        value: 40
+                    },
+                    {
+                        type: '<=',
+                        value: 20
+                    },
+                    {
+                        type: '%>=',
+                        value: 0.1
+                    },
+                    {
+                        type: '%>=',
+                        value: 0.05
+                    },
+                    {
+                        type: '%<=',
+                        value: 0.05
+                    },
+                    {
+                        type: '%<=',
+                        value: 0.1
+                    }
+                ]);
+            });
+
+            it('should filter condition with unknown type', () => {
+                const mockState = {
+                    notifiers: {
+                        mockCode: {
+                            cost: null,
+                            share: null,
+                            conditions: [
+                                {
+                                    type: 'unknown',
+                                    value: 10
+                                }
+                            ]
+                        }
+                    }
+                };
+                const mockPayload = {
+                    code: 'mockCode'
+                };
+                const newState = sortCondition(mockState, mockPayload);
+
+                expect(newState).not.toBe(mockState);
+                expect(newState.notifiers).not.toBe(mockState.notifiers);
+                expect(newState.notifiers.mockCode).not.toBe(mockState.notifiers.mockCode);
+                expect(newState.notifiers.mockCode.conditions).not.toBe(mockState.notifiers.mockCode.conditions);
+                expect(newState.notifiers.mockCode.conditions).toEqual([]);
+            });
+
+            it('should be no-op without code in payload', () => {
+                const mockState = {
+                    notifiers: {
+                        mockCode: {
+                            cost: null,
+                            share: null,
+                            conditions: [
+                                {
+                                    type: 'mockType',
+                                    value: 1.23
+                                }
+                            ]
+                        }
+                    }
+                };
+                const mockPayload = {};
+                const newState = sortCondition(mockState, mockPayload);
+
+                expect(newState).toBe(mockState);
+                expect(newState).toEqual(mockState);
+            });
+        });
 
         xdescribe('#cleanUpFiredAt', () => {});
     });

@@ -67,7 +67,7 @@ const notifier = {
                 return state;
             }
 
-            const { notifiers, notifiers: { [code]: { conditions = [] } = {} } = {} } = state;
+            const { notifiers = {}, notifiers: { [code]: { conditions = [] } = {} } = {} } = state;
             const parsedValue = parseFloat(value);
             const conditionExist = conditions.find(entry => {
                 return entry.type === type && entry.value === parsedValue;
@@ -146,32 +146,38 @@ const notifier = {
         sortCondition(state, payload) {
             const order = ['>=', '<=', '%>=', '%<='];
             const { code } = payload;
-            const { conditions = [] } = state.notifiers[code] || {};
 
-            state.notifiers[code] = {
-                ...state.notifiers[code],
-                conditions: [
-                    ...conditions.sort((lhs, rhs) => {
-                        if (lhs.type === rhs.type) {
-                            switch (lhs.type) {
-                                case '>=':
-                                case '<=':
-                                    return rhs.value - lhs.value;
-                                case '%>=':
-                                    return rhs.value - lhs.value;
-                                case '%<=':
-                                    return lhs.value - rhs.value;
-                                default:
-                                    return 0;
-                            }
-                        }
+            if (!code) {
+                return state;
+            }
 
-                        return order.indexOf(lhs.type) - order.indexOf(rhs.type);
-                    })
-                ]
+            const { notifiers, notifiers: { [code]: { conditions = [] } = {} } = {} } = state;
+
+            return {
+                ...state,
+                notifiers: {
+                    ...notifiers,
+                    [code]: {
+                        ...(notifiers[code] || {}),
+                        conditions: [
+                            ...conditions.filter(entry => order.indexOf(entry.type) !== -1).sort((lhs, rhs) => {
+                                if (lhs.type === rhs.type) {
+                                    switch (lhs.type) {
+                                        case '>=':
+                                        case '<=':
+                                        case '%>=':
+                                            return rhs.value - lhs.value;
+                                        case '%<=':
+                                            return lhs.value - rhs.value;
+                                    }
+                                }
+
+                                return order.indexOf(lhs.type) - order.indexOf(rhs.type);
+                            })
+                        ]
+                    }
+                }
             };
-
-            return state;
         },
         cleanUpFiredAt(state) {
             Object.keys(state.notifiers).forEach(symbol => {

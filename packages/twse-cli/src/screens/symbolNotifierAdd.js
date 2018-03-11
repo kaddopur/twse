@@ -28,6 +28,7 @@ export default async ({ params: { symbol } }) => {
                 value
             }
         });
+        dispatch.notifier.sortCondition({ code });
     }
 
     return dispatch.screen.update({ name: 'symbolNotifier', params: { symbol } });
