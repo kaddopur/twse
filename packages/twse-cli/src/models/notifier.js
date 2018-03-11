@@ -52,6 +52,10 @@ const notifier = {
             const { code } = payload;
             const { notifiers } = state;
 
+            if (!code) {
+                return state;
+            }
+
             delete notifiers[code];
 
             return { ...state, notifiers };

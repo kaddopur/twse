@@ -38,6 +38,32 @@ describe('[TWSE-CLI][Model] Notifier', () => {
                 expect(newState).toEqual(mockState);
             });
         });
+
+        describe('#remove', () => {
+            const { reducers: { remove } } = NotifierModel;
+
+            it('should be an Function', () => {
+                expect(remove).toBeInstanceOf(Function);
+            });
+
+            it('should remove notifier with symbol code', () => {
+                const mockState = { notifiers: { mockCode: 'mockNotifier' } };
+                const mockPayload = { code: 'mockCode' };
+                const newState = remove(mockState, mockPayload);
+
+                expect(newState).not.toBe(mockState);
+                expect(newState).not.toHaveProperty('mockCode');
+            });
+
+            it('should be no-np without code in payload', () => {
+                const mockState = { notifiers: { mockCode: 'mockNotifier' } };
+                const mockPayload = {};
+                const newState = remove(mockState, mockPayload);
+
+                expect(newState).toBe(mockState);
+                expect(newState).toEqual(mockState);
+            });
+        });
     });
 
     xdescribe('selectors', () => {
