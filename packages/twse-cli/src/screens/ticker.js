@@ -7,6 +7,7 @@ import { getState, dispatch } from '@rematch/core';
 import { select } from '@rematch/select';
 import prompt from '../prompt';
 import nn from 'node-notifier';
+import moment from 'moment';
 
 let invertColor = false;
 
@@ -32,6 +33,18 @@ const coloring = (string, condition, bgColor) => {
     }
 };
 
+const lastUpdate = (stockInfo = []) => {
+    const time = stockInfo.reduce((acc, entry) => {
+        const entryTime = Number(entry.tlong);
+        if (!acc) {
+            return entryTime;
+        }
+        return acc > entryTime ? acc : entryTime;
+    }, null);
+
+    return moment(time);
+};
+
 const renderTickerTable = (stockInfo = []) => {
     if (!process.env.DEBUG) {
         clear();
@@ -41,6 +54,8 @@ const renderTickerTable = (stockInfo = []) => {
         console.log('Server error');
         return;
     }
+
+    const updateTime = lastUpdate(stockInfo);
 
     const table = new Table({
         head: [
@@ -127,7 +142,7 @@ const renderTickerTable = (stockInfo = []) => {
     table.push([{ content: '', colSpan: 10 }]);
     table.push([
         {
-            content: `資料時間: ${stockInfo[0].d} ${stockInfo[0].t}`,
+            content: `資料時間: ${updateTime.format('YYYYMMDD HH:mm:ss')}`,
             colSpan: 10
         }
     ]);

@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* 修正`最近更新`時間
+
 ### Security
 
 ## [1.5.1] - 2018-03-11
