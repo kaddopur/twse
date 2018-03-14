@@ -5,9 +5,11 @@ function migrateConditonAddValueField(state) {
         acc[key] = {
             ...value,
             conditions: value.conditions.map(cond => {
+                const { value, price, rate } = cond;
+                const oldValue = price !== undefined ? price : rate;
                 const newCond = {
                     ...cond,
-                    value: cond.value || cond.price || cond.rate
+                    value: value !== undefined ? value : oldValue
                 };
 
                 delete newCond.price;

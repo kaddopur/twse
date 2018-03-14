@@ -1,28 +1,44 @@
 import { getStockInfo } from 'twse';
 import { dispatch } from '@rematch/core';
 import prompt from '../prompt';
+import { parseSymbolOption } from '../utils';
+
+const debug = require('debug')('screen:symbolNotifier');
 
 const SYMBOLNOTIFIER_ADD = 'Add notifier';
 const SYMBOLNOTIFIER_BACK = 'Back to symbol edit';
 
-function getChoices(conditions) {
-    return conditions.map(condition => `${condition.type} ${condition.value}`);
+function getChoices(conditions, cost) {
+    return conditions.map(({ type, value }) => {
+        switch (type) {
+            case '>=':
+            case '<=':
+                return `${type} ${parseFloat(value).toFixed(2)}`;
+            case '%>=':
+                return `${type} ${parseFloat(value).toFixed(2)}% -> ${parseFloat(cost * (1 + value / 100)).toFixed(2)}`;
+            case '%<=':
+                return `${type} ${parseFloat(value).toFixed(2)}% -> ${parseFloat(cost * (1 - value / 100)).toFixed(2)}`;
+        }
+    });
 }
 
 export default async ({ params: { symbol }, notifiers = {} }) => {
-    const { conditions = [] } = notifiers[symbol.split(' ')[0]] || {};
+    debug(symbol);
+    const { code } = parseSymbolOption(symbol);
+    const { conditions = [], cost } = notifiers[code] || {};
+    const notifierChoices = getChoices(conditions, cost);
 
     const questions = [
         {
             type: 'list',
             name: 'notifier',
-            message: symbol,
+            message: `${symbol}${cost === null ? '\n* setup average cost to enable rate notifier' : ''}`,
             pageSize: 50,
             choices: [
                 new prompt.Separator(),
                 SYMBOLNOTIFIER_ADD,
                 new prompt.Separator(),
-                ...getChoices(conditions),
+                ...notifierChoices,
                 new prompt.Separator(),
                 SYMBOLNOTIFIER_BACK
             ]
@@ -37,6 +53,9 @@ export default async ({ params: { symbol }, notifiers = {} }) => {
         case SYMBOLNOTIFIER_BACK:
             return dispatch.screen.update({ name: 'symbolEdit', params: { symbol } });
         default:
-            return dispatch.screen.update({ name: 'symbolNotifierRemove', params: { symbol, notifier } });
+            return dispatch.screen.update({
+                name: 'symbolNotifierRemove',
+                params: { symbol, notifier, index: notifierChoices.indexOf(notifier) }
+            });
     }
 };

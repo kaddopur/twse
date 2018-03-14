@@ -60,7 +60,7 @@ function render() {
         case 'symbolNotifier':
             return symbolNotifierScreen({ params, notifiers });
         case 'symbolNotifierAdd':
-            return symbolNotifierAddScreen({ params });
+            return symbolNotifierAddScreen({ params, notifiers });
         case 'symbolNotifierRemove':
             return symbolNotifierRemoveScreen({ params, notifiers });
         case 'symbolRemove':

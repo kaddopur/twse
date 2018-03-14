@@ -5,7 +5,7 @@ import prompt from '../prompt';
 const debug = require('debug')('screen:symbolEdit');
 
 const SYMBOLEDIT_COST = 'Setup average cost';
-const SYMBOLEDIT_SETUP = 'Setup notifier';
+const SYMBOLEDIT_SETUP = 'Setup notifiers';
 const SYMBOLEDIT_REMOVE = 'Remove';
 const SYMBOLEDIT_BACK = 'Back to symbol list';
 
@@ -26,8 +26,8 @@ export default async ({ notifiers, params: { symbol } }) => {
             message: symbol,
             choices: [
                 new prompt.Separator(),
-                `${SYMBOLEDIT_COST}, current: ${getCost(notifiers, symbol)}`,
                 SYMBOLEDIT_SETUP,
+                `${SYMBOLEDIT_COST}, current: ${getCost(notifiers, symbol)}`,
                 SYMBOLEDIT_REMOVE,
                 new prompt.Separator(),
                 SYMBOLEDIT_BACK

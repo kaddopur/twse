@@ -322,7 +322,7 @@ describe('[TWSE-CLI][Model] Notifier', () => {
                 };
                 const mockPayload = {
                     code: 'mockCode',
-                    notifier: 'mockType 1.23'
+                    index: 0
                 };
                 const newState = removeCondition(mockState, mockPayload);
 
@@ -349,7 +349,7 @@ describe('[TWSE-CLI][Model] Notifier', () => {
                     }
                 };
                 const mockPayload = {
-                    notifier: 'mockType 1.23'
+                    index: 0
                 };
                 const newState = removeCondition(mockState, mockPayload);
 
@@ -357,7 +357,7 @@ describe('[TWSE-CLI][Model] Notifier', () => {
                 expect(newState).toEqual(mockState);
             });
 
-            it('should be no-op without notifier in payload', () => {
+            it('should be no-op without index in payload', () => {
                 const mockState = {
                     notifiers: {
                         mockCode: {
@@ -381,7 +381,7 @@ describe('[TWSE-CLI][Model] Notifier', () => {
                 expect(newState).toEqual(mockState);
             });
 
-            it('should be no-op if target code is not found', () => {
+            it('should be no-op if target code is out of range', () => {
                 const mockState = {
                     notifiers: {
                         mockCode: {
@@ -398,7 +398,7 @@ describe('[TWSE-CLI][Model] Notifier', () => {
                 };
                 const mockPayload = {
                     code: 'fooCode',
-                    notifier: 'mockType 1.23'
+                    index: 2
                 };
                 const newState = removeCondition(mockState, mockPayload);
 

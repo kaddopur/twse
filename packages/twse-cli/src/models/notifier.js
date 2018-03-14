@@ -122,15 +122,16 @@ const notifier = {
             };
         },
         removeCondition(state, payload) {
-            const { code, notifier: notifierOption } = payload;
+            debug(payload);
+            const { code, index } = payload;
 
-            if (!code || !notifierOption) {
+            if (!code || index === undefined) {
                 return state;
             }
 
             const { notifiers = {}, notifiers: { [code]: { conditions = [] } = {} } = {} } = state;
 
-            if (!notifiers[code]) {
+            if (!notifiers[code] || index < 0 || index >= conditions.length) {
                 return state;
             }
 
@@ -140,7 +141,7 @@ const notifier = {
                     ...notifiers,
                     [code]: {
                         ...(notifiers[code] || {}),
-                        conditions: conditions.filter(entry => notifierOption !== `${entry.type} ${entry.value}`)
+                        conditions: [...conditions.slice(0, index), ...conditions.slice(index + 1)]
                     }
                 }
             };
