@@ -15,7 +15,7 @@ export default async () => {
         {
             type: 'autocomplete',
             name: 'symbol',
-            message: "Enter new symbol (Type 'exit' to quit):",
+            message: `Enter new symbol (Type 'exit' to quit):`,
             source: (answers, input) => {
                 if (!input) {
                     return Promise.resolve([]);

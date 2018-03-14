@@ -2,10 +2,23 @@ import { getStockInfo } from 'twse';
 import { dispatch } from '@rematch/core';
 import prompt from '../prompt';
 
-const SYMBOLEDIT_SETUP = 'Setup notifier';
-const SYMBOLEDIT_REMOVE = 'Remove';
+const debug = require('debug')('screen:symbolEdit');
 
-export default async ({ params: { symbol } }) => {
+const SYMBOLEDIT_COST = 'Setup average cost';
+const SYMBOLEDIT_SETUP = 'Setup notifiers';
+const SYMBOLEDIT_REMOVE = 'Remove';
+const SYMBOLEDIT_BACK = 'Back to symbol list';
+
+function getCost(notifiers, symbol) {
+    const code = symbol.split(' ')[0];
+    return notifiers[code].cost;
+}
+
+export default async ({ notifiers, params: { symbol } }) => {
+    debug(notifiers);
+    debug(symbol);
+
+    const cost = 'unknown';
     const questions = [
         {
             type: 'list',
@@ -14,9 +27,10 @@ export default async ({ params: { symbol } }) => {
             choices: [
                 new prompt.Separator(),
                 SYMBOLEDIT_SETUP,
+                `${SYMBOLEDIT_COST}, current: ${getCost(notifiers, symbol)}`,
                 SYMBOLEDIT_REMOVE,
                 new prompt.Separator(),
-                'Back to symbol list'
+                SYMBOLEDIT_BACK
             ]
         }
     ];
@@ -28,7 +42,9 @@ export default async ({ params: { symbol } }) => {
             return dispatch.screen.update({ name: 'symbolNotifier', params: { symbol } });
         case SYMBOLEDIT_REMOVE:
             return dispatch.screen.update({ name: 'symbolRemove', params: { symbol } });
-        default:
+        case SYMBOLEDIT_BACK:
             return dispatch.screen.update({ name: 'symbolList' });
+        default:
+            return dispatch.screen.update({ name: 'symbolCost', params: { symbol } });
     }
 };

@@ -7,6 +7,7 @@ import tickerScreen from './screens/ticker';
 import symbolListScreen from './screens/symbolList';
 import symbolAddScreen from './screens/symbolAdd';
 import symbolEditScreen from './screens/symbolEdit';
+import symbolCostScreen from './screens/symbolCost';
 import symbolNotifierScreen from './screens/symbolNotifier';
 import symbolNotifierAddScreen from './screens/symbolNotifierAdd';
 import symbolNotifierRemoveScreen from './screens/symbolNotifierRemove';
@@ -37,6 +38,8 @@ function render() {
 
     if (!process.env.DEBUG) {
         clear();
+    } else {
+        console.log('\n----------\n');
     }
 
     const { name, params } = screen;
@@ -50,12 +53,14 @@ function render() {
             return symbolListScreen({ symbols });
         case 'symbolAdd':
             return symbolAddScreen();
+        case 'symbolCost':
+            return symbolCostScreen({ params, notifiers });
         case 'symbolEdit':
             return symbolEditScreen({ params, notifiers });
         case 'symbolNotifier':
             return symbolNotifierScreen({ params, notifiers });
         case 'symbolNotifierAdd':
-            return symbolNotifierAddScreen({ params });
+            return symbolNotifierAddScreen({ params, notifiers });
         case 'symbolNotifierRemove':
             return symbolNotifierRemoveScreen({ params, notifiers });
         case 'symbolRemove':

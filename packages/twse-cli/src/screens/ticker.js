@@ -180,7 +180,7 @@ const checkNotifiers = (stockInfo = [], notifiers = []) => {
                     }
                     break;
                 case '%>=':
-                    if (cost !== null && stock.z >= cost * (1 + value)) {
+                    if (cost !== null && stock.z >= cost * (1 + value / 100)) {
                         fireNotification(
                             stock,
                             index,
@@ -189,7 +189,7 @@ const checkNotifiers = (stockInfo = [], notifiers = []) => {
                     }
                     break;
                 case '%<=':
-                    if (cost !== null && stock.z <= cost * (1 - value)) {
+                    if (cost !== null && stock.z <= cost * (1 - value / 100)) {
                         fireNotification(
                             stock,
                             index,
