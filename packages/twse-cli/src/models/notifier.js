@@ -1,3 +1,5 @@
+const debug = require('debug')('model:notifier');
+
 const notifier = {
     // state: {
     //     notifiers: {
@@ -197,6 +199,32 @@ const notifier = {
             });
 
             return { ...state, notifiers: newNotifiers };
+        },
+        updateCost(state, payload) {
+            debug(payload);
+            const { code, cost } = payload;
+            const parsedCost = parseInt(cost, 10);
+
+            if (isNaN(parsedCost)) {
+                return state;
+            }
+
+            const { notifiers = {}, notifiers: { [code]: { conditions = [] } = {} } = {} } = state;
+
+            if (!notifiers[code]) {
+                return state;
+            }
+
+            return {
+                ...state,
+                notifiers: {
+                    ...notifiers,
+                    [code]: {
+                        ...(notifiers[code] || {}),
+                        cost
+                    }
+                }
+            };
         }
     },
     selectors: {
