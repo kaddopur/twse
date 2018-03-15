@@ -184,7 +184,9 @@ const checkNotifiers = (stockInfo = [], notifiers = []) => {
                         fireNotification(
                             stock,
                             index,
-                            `上漲突破 ${numeral(value).format('0.00%')}\n現在價位 ${numeral(stock.z).format('0.00')}`
+                            `上漲突破成本 ${numeral(value / 100).format('0.00%')}\n現在價位 ${numeral(stock.z).format(
+                                '0.00'
+                            )}`
                         );
                     }
                     break;
@@ -193,7 +195,9 @@ const checkNotifiers = (stockInfo = [], notifiers = []) => {
                         fireNotification(
                             stock,
                             index,
-                            `下跌突破 ${numeral(value).format('0.00%')}\n現在價位 ${numeral(stock.z).format('0.00')}`
+                            `下跌突破成本 ${numeral(value / 100).format('0.00%')}\n現在價位 ${numeral(stock.z).format(
+                                '0.00'
+                            )}`
                         );
                     }
                     break;

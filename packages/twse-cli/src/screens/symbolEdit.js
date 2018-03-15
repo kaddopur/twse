@@ -11,7 +11,8 @@ const SYMBOLEDIT_BACK = 'Back to symbol list';
 
 function getCost(notifiers, symbol) {
     const code = symbol.split(' ')[0];
-    return notifiers[code].cost;
+    const { cost = null } = notifiers[code] || {};
+    return cost;
 }
 
 export default async ({ notifiers, params: { symbol } }) => {
