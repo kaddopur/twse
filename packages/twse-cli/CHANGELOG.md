@@ -17,9 +17,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-* 修正`到價提醒`的提示文字
-
 ### Security
+
+## [1.6.1] - 2018-03-15
+
+### Fixed
+
+* 修正`到價提醒`的提示文字
+* 修正錯誤處理
 
 ## [1.6.0] - 2018-03-14
 
@@ -80,7 +85,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * 即時報價頁面完成。可以新增股票/顯示即時股價
 
-[unreleased]: https://github.com/kaddopur/twse/compare/v1.6.0...HEAD
+[unreleased]: https://github.com/kaddopur/twse/compare/v1.6.1...HEAD
+[1.6.1]: https://github.com/kaddopur/twse/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/kaddopur/twse/compare/v1.5.1...v1.6.0
 [1.5.1]: https://github.com/kaddopur/twse/compare/v1.5.0...v1.5.1
 [1.5.0]: https://github.com/kaddopur/twse/compare/v1.4.1...v1.5.0
