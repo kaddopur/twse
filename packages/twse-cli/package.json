@@ -1,6 +1,6 @@
 {
   "name": "twse-cli",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "main": "dist/index.js",
   "license": "MIT",
   "description": "CLI interface for twse",
