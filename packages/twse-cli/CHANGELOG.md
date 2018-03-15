@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* 修正`到價提醒`的提示文字
+
 ### Security
 
 ## [1.6.0] - 2018-03-14
