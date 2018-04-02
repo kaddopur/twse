@@ -1,5 +1,5 @@
 function migrateConditonAddValueField(state) {
-    const { notifier = {}, notifier: { notifiers } = {} } = state;
+    const { notifier = {}, notifier: { notifiers = [] } = {} } = state;
 
     const newNotifiers = Object.entries(notifiers).reduce((acc, [key, value]) => {
         acc[key] = {
