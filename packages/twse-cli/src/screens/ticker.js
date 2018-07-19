@@ -1,6 +1,6 @@
 import clear from 'clear';
 import chalk from 'chalk';
-import Table from 'cli-table2';
+import Table from 'cli-table3';
 import { getStockInfoStream } from 'twse';
 import numeral from 'numeral';
 import { getState, dispatch } from '@rematch/core';
